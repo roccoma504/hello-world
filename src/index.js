@@ -17,6 +17,9 @@ var endpoint = "region/africa"
 
 var Loading = require('react-loading');
 
+        var nationInfoArray = [];
+
+
 
 function tick() {
     ReactDOM.render( < App time = {
@@ -81,7 +84,6 @@ function parseJSON(nationResponse) {
         */
         const keyArray = ["name", "alpha2Code", "capital", "region", "population", "area", "timezones", "languages", "area"]
 
-        var nationInfoArray = [];
 
         // Build our modal from the retrieved data and the required info.
         for (var i = 0; i < parsedJSON.length; i++) {
@@ -103,25 +105,52 @@ function parseJSON(nationResponse) {
             nationInfoArray.push(nationInfo)
         }
         console.log(nationInfoArray)
+                        displayNation(nationInfoArray[0].name)
 
-        nationInfoArray.sort(function (a, b) {
-            return a.name.localeCompare(b.name);
-        })
 
-        nationInfoArray.sort(function (a, b) {
-            return parseFloat(a.density) - parseFloat(b.density);
-        });
 
-        displayURL(nationInfoArray[0].name)
+
     }
 
 }
 
-function displayURL(nationData) {
-    const element = ( 
-        <div>
-        <p> {nationData} </p> 
-        </div>
+
+
+function displayNation(nationData) {
+
+    var styles = {
+        baseButton: {
+            fontSize: 15,
+            textAlign: 'center',
+            color: '#446CB3',
+        }
+    }
+
+    function nameSort() {
+        console.log("name sort")
+                nationInfoArray.sort(function (a, b) {
+            return a.name.localeCompare(b.name);
+        })
+                        displayNation(nationInfoArray[0].name)
+
+    }
+    
+    function densitySort() {
+        console.log("density sort")
+        
+        nationInfoArray.sort(function (a, b) {
+            return parseFloat(a.density) - parseFloat(b.density);
+        });
+                displayNation(nationInfoArray[0].name)
+
+    }
+
+    const element = ( <div>
+        <button style = {styles.baseButton} onClick = {nameSort}
+            type = "button" > Sort By Name </button> 
+        <button style = {styles.baseButton} onClick = {densitySort}
+            type = "button">Sort By Density</button> 
+        <p> {nationData} </p>  </div>
     );
     ReactDOM.render(
         element,
@@ -130,25 +159,29 @@ function displayURL(nationData) {
 }
 
 var styles = {
-  baseText: {
-    fontSize: 20,
-    textAlign: 'center'
-  },
-  titleText: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  }
+    baseText: {
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    titleText: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    }
 }
 
 // Defines the landing element while we get data from the site.
-const landingElement = (
-    <div>
-    <h1 style={styles.titleText}> Nation Info </h1> 
-    <h2 style={styles.baseText}> Built with React </h2> 
-    <h2 style={styles.baseText} > Loading info... </h2> 
-    <Loading align='center' type='spin' color='#446CB3' /> 
-    </div>
+const landingElement = ( < div >
+    < h1 style = {
+        styles.titleText
+    } > Nation Info < /h1>  < h2 style = {
+        styles.baseText
+    } > Built with React < /h2>  < h2 style = {
+        styles.baseText
+    } > Loading info... < /h2>  < Loading align = 'center'
+    type = 'spin'
+    color = '#446CB3' / >
+    < /div>
 );
 
 ReactDOM.render(
