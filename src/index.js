@@ -13,7 +13,7 @@ const baseURL = "https://restcountries.eu/rest/v1/"
 
 // Variables
 // Expandable endpoint variable.
-var endpoint = "region/africa"
+var endpoint = "all"
 
 var Loading = require('react-loading');
 
@@ -45,14 +45,29 @@ function getNationInfo(url) {
 // Format the data for display. We cat all the info together that we need.
 function formatedNationInfo(nationInfoArray) {
     // Modfied for display.
-    
     var nationDisplayArray = [];
+   /* for (var y = 0; y < nationInfoArray.length; y++) {
+        nationDisplayArray[y] = nationInfoArray[y].name.toLocaleString() + " " + nationInfoArray[y].population.toLocaleString() + "(people) " + nationInfoArray[y].density.toLocaleString() + ("(people/km^2)")
+    }*/
     for (var y = 0; y < nationInfoArray.length; y++) {
-        nationDisplayArray[y] = nationInfoArray[y].name + " " + nationInfoArray[y].population.toLocaleString() + "(people) " + nationInfoArray[y].density.toLocaleString() + ("(people/km^2)")
+        nationDisplayArray[y] = nationInfoArray[y].name.toLocaleString() + " " + nationInfoArray[y].region.toLocaleString()
     }
-
     return nationDisplayArray;
 }
+
+// Basic sort function by name. Called on click and is the
+// default load. Need it in the global scope for now.
+function nameSort(increment) {
+    nationInfoArray.sort(function (a, b) {
+        if (increment) {
+            return a.name.localeCompare(b.name);
+        }
+        else {
+            return b.name.localeCompare(a.name);
+        }
+    })
+    displayNation(formatedNationInfo(nationInfoArray))
+    }
 
 
 // Wrapper for JSON parsing. We should only get here if we got a valid response
@@ -99,13 +114,12 @@ function parseJSON(nationResponse) {
             nationInfoArray.push(nationInfo)
         }
         console.log(nationInfoArray)
-        displayNation(formatedNationInfo(nationInfoArray))
+        nameSort(true)
     }
 }
 
 // Core display function.
 function displayNation(nationData) {
-
     // Button style
     const styles = {
         baseButton: {
@@ -115,20 +129,16 @@ function displayNation(nationData) {
         }
     }
 
-    // Basic sort function by name. Called on click, will
-    // fire off display.
-    function nameSort() {
-        nationInfoArray.sort(function (a, b) {
-            return a.name.localeCompare(b.name);
-        })
-        displayNation(formatedNationInfo(nationInfoArray))
-    }
-
     // Basic sort function by density. Called on click, will
     // fire off display.
-    function densitySort() {
+    function densitySort(increment) {
         nationInfoArray.sort(function (a, b) {
-            return parseFloat(a.density) - parseFloat(b.density);
+            if (increment) {
+                return parseFloat(a.density) - parseFloat(b.density);
+            }
+            else {
+                return parseFloat(b.density) - parseFloat(a.density);
+            }
         });
         displayNation(formatedNationInfo(nationInfoArray))
     }
@@ -136,13 +146,12 @@ function displayNation(nationData) {
     function additionalInfo(index) {
         window.alert("clicked")
     }
-
-        var Hello = React.createClass({
+    
+        var Nation = React.createClass({
             render: function () {
                 var namesList = nationData.map(function (name, index) {
-                    return <li key={index} > {name} <button style={styles.baseButton}
-                    onClick={additionalInfo}
-                    type="button">Info</button></li>;
+                    return <li key={index} > {name} 
+                <button style={styles.baseButton} onClick={additionalInfo} id={name} type="button">Info</button> </li>;
                 })
                 return <ol> {namesList} </ol> 
             }
@@ -154,7 +163,7 @@ function displayNation(nationData) {
                     onClick={nameSort} type="button">Sort By Name </button> 
                 <button style={styles.baseButton}
                     onClick={densitySort} type="button">Sort By Density </button>   
-            <Hello/>
+            <Nation/>
             </div>
         );
 
