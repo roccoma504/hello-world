@@ -112,11 +112,10 @@ function parseJSON(nationResponse) {
             return parseFloat(a.density) - parseFloat(b.density);
         });
 
-        //displayURL(nationInfoArray[0].name)
+        displayURL(nationInfoArray[0].name)
     }
 
 }
-
 
 function displayURL(nationData) {
     const element = ( 
@@ -130,18 +129,25 @@ function displayURL(nationData) {
     );
 }
 
-cost landingStyle = (
-fontSize: 20
-    
-)
+var styles = {
+  baseText: {
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  titleText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  }
+}
 
 // Defines the landing element while we get data from the site.
 const landingElement = (
     <div>
-    <h1 style={landingStyle}> Nation Info </h1> 
-    <h2> Built with Rect </h2> 
-    <h2> Loading info... </h2> 
-    <Loading type='spin' color='#446CB3' /> 
+    <h1 style={styles.titleText}> Nation Info </h1> 
+    <h2 style={styles.baseText}> Built with React </h2> 
+    <h2 style={styles.baseText} > Loading info... </h2> 
+    <Loading align='center' type='spin' color='#446CB3' /> 
     </div>
 );
 
