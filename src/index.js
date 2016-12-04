@@ -17,18 +17,8 @@ var endpoint = "region/africa"
 
 var Loading = require('react-loading');
 
-        var nationInfoArray = [];
+var nationInfoArray = [];
 
-
-
-function tick() {
-    ReactDOM.render( < App time = {
-            "test"
-        }
-        />,
-        document.getElementById('root')
-    );
-}
 
 // Functions
 // Generic async request found @ w3school.
@@ -59,13 +49,6 @@ function parseJSON(nationResponse) {
     // Parse the retrieved message.
     const parsedJSON = JSON.parse(nationResponse)
 
-    //# TODO REmove
-    /* const preface = "Population of "
-    for (var i = 0; i < parsedJSON.length; i++) {
-        console.log(preface + parsedJSON[i].name + " " + parsedJSON[i].population)
-    }
-    */
-
     // Build out data modal for sorting and display.
     buildModal(parsedJSON)
 
@@ -83,7 +66,6 @@ function parseJSON(nationResponse) {
         - We also need to figure out population density with is people per square km
         */
         const keyArray = ["name", "alpha2Code", "capital", "region", "population", "area", "timezones", "languages", "area"]
-
 
         // Build our modal from the retrieved data and the required info.
         for (var i = 0; i < parsedJSON.length; i++) {
@@ -105,13 +87,8 @@ function parseJSON(nationResponse) {
             nationInfoArray.push(nationInfo)
         }
         console.log(nationInfoArray)
-                        displayNation(nationInfoArray[0].name)
-
-
-
-
+        displayNation(nationInfoArray[0].name + " Population: " + nationInfoArray[0].population + " Density: " + nationInfoArray[0].density)
     }
-
 }
 
 
@@ -127,33 +104,42 @@ function displayNation(nationData) {
     }
 
     function nameSort() {
-        console.log("name sort")
-                nationInfoArray.sort(function (a, b) {
+        nationInfoArray.sort(function (a, b) {
             return a.name.localeCompare(b.name);
         })
-                        displayNation(nationInfoArray[0].name)
-
+        displayNation(nationInfoArray[0].name)
     }
-    
+
     function densitySort() {
-        console.log("density sort")
-        
         nationInfoArray.sort(function (a, b) {
             return parseFloat(a.density) - parseFloat(b.density);
         });
-                displayNation(nationInfoArray[0].name)
-
+        displayNation(nationInfoArray[0].name)
     }
+    
+    function additionalInfo() {
+        window.alert("here")
+    }
+    
+    const nationElement = (
+    <div>
+        <p>{nationData} <button style = {styles.baseButton} onClick = {additionalInfo}
+            type = "button">More Info </button></p>
+          
+    </div>
+    );
 
-    const element = ( <div>
+    const rootElement = ( 
+        <div>
         <button style = {styles.baseButton} onClick = {nameSort}
-            type = "button" > Sort By Name </button> 
+            type = "button">Sort By Name </button>  
         <button style = {styles.baseButton} onClick = {densitySort}
-            type = "button">Sort By Density</button> 
-        <p> {nationData} </p>  </div>
+            type = "button" > Sort By Density </button>  
+        {nationElement} 
+        </div>
     );
     ReactDOM.render(
-        element,
+        rootElement,
         document.getElementById('root')
     );
 }
@@ -175,12 +161,12 @@ const landingElement = ( < div >
     < h1 style = {
         styles.titleText
     } > Nation Info < /h1>  < h2 style = {
-        styles.baseText
-    } > Built with React < /h2>  < h2 style = {
-        styles.baseText
-    } > Loading info... < /h2>  < Loading align = 'center'
-    type = 'spin'
-    color = '#446CB3' / >
+    styles.baseText
+} > Built with React < /h2>  < h2 style = {
+styles.baseText
+} > Loading info... < /h2>  < Loading align = 'center'
+type = 'spin'
+color = '#446CB3' / >
     < /div>
 );
 
