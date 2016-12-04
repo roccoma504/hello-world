@@ -14,8 +14,6 @@ const baseURL = "https://restcountries.eu/rest/v1/"
 // Expandable endpoint variable.
 var endpoint = "region/africa"
 
-var Loading = require('react-loading');
-
 // Contains all information about the nations
 var nationInfoArray = [];
 
@@ -41,19 +39,6 @@ function getNationInfo(url) {
     xmlHttp.send(null);
 }
 
-// Format the data for display. We cat all the info together that we need.
-function formatedNationInfo(nationInfoArray) {
-    // Modfied for display.
-    var nationDisplayArray = [];
-   /* for (var y = 0; y < nationInfoArray.length; y++) {
-        nationDisplayArray[y] = nationInfoArray[y].name.toLocaleString() + " " + nationInfoArray[y].population.toLocaleString() + "(people) " + nationInfoArray[y].density.toLocaleString() + ("(people/km^2)")
-    }*/
-    for (var y = 0; y < nationInfoArray.length; y++) {
-        nationDisplayArray[y] = nationInfoArray[y].name.toLocaleString() + " " + nationInfoArray[y].region.toLocaleString()
-    }
-    return nationDisplayArray;
-}
-
 // Basic sort function by name. Called on click and is the
 // default load. Need it in the global scope for now.
 function nameSort(increment) {
@@ -65,9 +50,7 @@ function nameSort(increment) {
             return b.name.localeCompare(a.name);
         }
     })
-   // displayNation(formatedNationInfo(nationInfoArray))
     }
-
 
 // Wrapper for JSON parsing. We should only get here if we got a valid response
 // from the server.
@@ -126,16 +109,14 @@ function displayNation(nationInfoArray) {
         regions.push(nationInfoArray[i]["region"])
     }
         
-    var Hello = React.createClass({
+    var Cards = React.createClass({
     render: function() {    
     var namesList = names.map(function(name){
     var foundCountry = {}
-    var additionalData = []
-
     // Find the country in the list of countries to get the other data.
     // TODO: Find a quicker way to do this, the search takes a while.
     for (var i = 0; i < nationInfoArray.length; i++) {
-        if (nationInfoArray[i].name == name) {
+        if (nationInfoArray[i].name === name) {
             foundCountry = nationInfoArray[i]
             return <CardExampleExpandable key={name} additionalData={foundCountry} />
         }
@@ -149,10 +130,11 @@ function displayNation(nationInfoArray) {
 
 const rootElement = (
       <MuiThemeProvider>
+
             <div>
     <Button name="Sort By Name" isPrimary={true} isSecondary={false} onClick={nameSort}/>
     <Button name="Sort By Population Density" isPrimary={false} isSecondary={true} />
-            <Hello/>
+            <Cards/>
             </div>
       </MuiThemeProvider>
 
@@ -168,7 +150,6 @@ const rootElement = (
 const App = () => (
   <MuiThemeProvider>
     <div>
-    
 </div>
         </MuiThemeProvider>
   
