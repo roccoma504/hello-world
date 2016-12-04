@@ -20,10 +20,6 @@ var Loading = require('react-loading');
 // Contains all information about the nations
 var nationInfoArray = [];
 
-// Modfied for display.
-var nationDisplayArray = [];
-
-
 // Functions
 // Generic async request found @ w3school.
 function getNationInfo(url) {
@@ -42,10 +38,22 @@ function getNationInfo(url) {
             }
         }
     }
-
     xmlHttp.open("GET", url, true);
     xmlHttp.send(null);
 }
+
+// Format the data for display. We cat all the info together that we need.
+function formatedNationInfo(nationInfoArray) {
+    // Modfied for display.
+    
+    var nationDisplayArray = [];
+    for (var y = 0; y < nationInfoArray.length; y++) {
+        nationDisplayArray[y] = nationInfoArray[y].name + " " + nationInfoArray[y].population.toLocaleString() + "(people) " + nationInfoArray[y].density.toLocaleString() + ("(people/km^2)")
+    }
+
+    return nationDisplayArray;
+}
+
 
 // Wrapper for JSON parsing. We should only get here if we got a valid response
 // from the server.
@@ -91,21 +99,15 @@ function parseJSON(nationResponse) {
             nationInfoArray.push(nationInfo)
         }
         console.log(nationInfoArray)
-        
-        for (var y = 0; y < nationInfoArray.length; y++) {
-            nationDisplayArray[y] = nationInfoArray[y].name + " " + nationInfoArray[y].population + "(people) " + nationInfoArray[y].density + ("(people/km^2)")
-        }
-        
-        console.log(nationDisplayArray)
-        displayNation(nationDisplayArray)
+        displayNation(formatedNationInfo(nationInfoArray))
     }
 }
 
-
-
+// Core display function.
 function displayNation(nationData) {
 
-    var styles = {
+    // Button style
+    const styles = {
         baseButton: {
             fontSize: 15,
             textAlign: 'center',
@@ -113,94 +115,80 @@ function displayNation(nationData) {
         }
     }
 
+    // Basic sort function by name. Called on click, will
+    // fire off display.
     function nameSort() {
         nationInfoArray.sort(function (a, b) {
             return a.name.localeCompare(b.name);
         })
-console.log("name sort")
-        
-for (var y = 0; y < nationInfoArray.length; y++) {
-            nationDisplayArray[y] = nationInfoArray[y].name + " " + nationInfoArray[y].population + "(people) " + nationInfoArray[y].density + ("(people/km^2)")
-        } 
-
-        displayNation(nationDisplayArray)
-
+        displayNation(formatedNationInfo(nationInfoArray))
     }
 
+    // Basic sort function by density. Called on click, will
+    // fire off display.
     function densitySort() {
         nationInfoArray.sort(function (a, b) {
             return parseFloat(a.density) - parseFloat(b.density);
         });
-        
-for (var y = 0; y < nationInfoArray.length; y++) {
-            nationDisplayArray[y] = nationInfoArray[y].name + " " + nationInfoArray[y].population + "(people) " + nationInfoArray[y].density + ("(people/km^2)")
-        }
-    console.log("den sort")
-        displayNation(nationDisplayArray)
-
+        displayNation(formatedNationInfo(nationInfoArray))
     }
-    
+
     function additionalInfo(index) {
         window.alert("clicked")
     }
-    
-    const nationElement = (
-    <div>
-        <p> {nationData} <button style={styles.baseButton} onClick={additionalInfo} type="button">More Info </button></p>
-          
-    </div>);
-        
-  var Hello = React.createClass({
-    render: function() {
-        var namesList = nationData.map(function(name, index){
-            			return <li key={ index }>{name} 
-                            <button style={styles.baseButton} onClick={additionalInfo} type="button"> Info </button></li>;
-          			})
-                    
-        return <ol>{namesList} </ol> 
-    }
-});
 
-    const rootElement = ( 
+        var Hello = React.createClass({
+            render: function () {
+                var namesList = nationData.map(function (name, index) {
+                    return <li key={index} > {name} <button style={styles.baseButton}
+                    onClick={additionalInfo}
+                    type="button">Info</button></li>;
+                })
+                return <ol> {namesList} </ol> 
+            }
+        });
+
+        const rootElement = (
+            <div>
+                <button style={styles.baseButton}
+                    onClick={nameSort} type="button">Sort By Name </button> 
+                <button style={styles.baseButton}
+                    onClick={densitySort} type="button">Sort By Density </button>   
+            <Hello/>
+            </div>
+        );
+
+        ReactDOM.render(
+            rootElement,
+            document.getElementById('root')
+        );
+    }
+
+    var styles = {
+        baseText: {
+            fontSize: 20,
+            textAlign: 'center'
+        },
+        titleText: {
+            fontSize: 30,
+            fontWeight: 'bold',
+            textAlign: 'center'
+        }
+    }
+
+    // Defines the landing element while we get data from the site.
+    const landingElement=( 
         <div>
-        <button style={styles.baseButton} onClick={nameSort}
-            type="button">Sort By Name </button>  
-        <button style={styles.baseButton} onClick={densitySort}
-            type="button">Sort By Density</button>  
-        <Hello/> 
+            <h1 style={styles.titleText}>Nation Info</h1>   
+            <h2 style={styles.baseText}> Built with React </h2>
+            <h2 style={styles.baseText}> Loading info... </h2>
+        <Loading align='center' type='spin' color='#446CB3'/>
         </div>
     );
-    
+
     ReactDOM.render(
-        rootElement,
+        landingElement,
         document.getElementById('root')
     );
-}
 
-var styles = {
-    baseText: {
-        fontSize: 20,
-        textAlign: 'center'
-    },
-    titleText: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        textAlign: 'center'
-    }
-}
-
-// Defines the landing element while we get data from the site.
-const landingElement = ( < div >
-    <h1 style={styles.titleText}>Nation Info</h1>  
-    <h2 style={styles.baseText}> Built with React </h2>  
-    <h2 style={styles.baseText}>Loading info... </h2>  
-    <Loading align='center' type='spin' color='#446CB3'/>
-    </div>
-);
-
-ReactDOM.render(
-    landingElement,
-    document.getElementById('root')
-);
-
-getNationInfo(baseURL + endpoint)
+    getNationInfo(baseURL + endpoint)
