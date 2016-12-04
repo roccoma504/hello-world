@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Button from './components/button';
-import CardExampleExpandable from './components/gridlist'
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+//import App from './App';
+import './index.css';
+
+
+//https://www.npmjs.com/package/react-loading
+
 
 // Constants
 // Define the base URL for flex when building enpoints.
@@ -12,7 +13,7 @@ const baseURL = "https://restcountries.eu/rest/v1/"
 
 // Variables
 // Expandable endpoint variable.
-var endpoint = "region/africa"
+var endpoint = "all"
 
 var Loading = require('react-loading');
 
@@ -65,7 +66,7 @@ function nameSort(increment) {
             return b.name.localeCompare(a.name);
         }
     })
-   // displayNation(formatedNationInfo(nationInfoArray))
+    displayNation(formatedNationInfo(nationInfoArray))
     }
 
 
@@ -114,63 +115,89 @@ function parseJSON(nationResponse) {
         }
         console.log(nationInfoArray)
         nameSort(true)
-        displayNation(nationInfoArray)
     }
 }
 
-
-function displayNation(nationInfoArray) {
-    var names = [];
-    var regions = [];
-    for (var i = 0; i < nationInfoArray.length; i++) {
-        names.push(nationInfoArray[i]["name"])
-        regions.push(nationInfoArray[i]["region"])
+// Core display function.
+function displayNation(nationData) {
+    // Button style
+    const styles = {
+        baseButton: {
+            fontSize: 15,
+            textAlign: 'center',
+            color: '#446CB3',
+        }
     }
-    console.log({names})
+
+    // Basic sort function by density. Called on click, will
+    // fire off display.
+    function densitySort(increment) {
+        nationInfoArray.sort(function (a, b) {
+            if (increment) {
+                return parseFloat(a.density) - parseFloat(b.density);
+            }
+            else {
+                return parseFloat(b.density) - parseFloat(a.density);
+            }
+        });
+        displayNation(formatedNationInfo(nationInfoArray))
+    }
+
+    function additionalInfo(index) {
+        window.alert("clicked")
+    }
     
-    var Hello = React.createClass({
-    render: function() {
-        var namesList = names.map(function(name){
-            return <CardExampleExpandable country={name} />;
-        })
-        return <ul>{namesList}</ul>
-    }
-});
+        var Nation = React.createClass({
+            render: function () {
+                var namesList = nationData.map(function (name, index) {
+                    return <li key={index} > {name} 
+                <button style={styles.baseButton} onClick={additionalInfo} id={name} type="button">Info</button> </li>;
+                })
+                return <ol> {namesList} </ol> 
+            }
+        });
 
-
-const rootElement = (
-      <MuiThemeProvider>
+        const rootElement = (
             <div>
-    <Button name="Sort By Name" isPrimary={true} isSecondary={false} onClick={nameSort}/>
-    <Button name="Sort By Population Density" isPrimary={false} isSecondary={true} />
-            <Hello/>
+                <button style={styles.baseButton}
+                    onClick={nameSort} type="button">Sort By Name </button> 
+                <button style={styles.baseButton}
+                    onClick={densitySort} type="button">Sort By Density </button>   
+            <Nation/>
             </div>
-      </MuiThemeProvider>
-
         );
 
         ReactDOM.render(
             rootElement,
             document.getElementById('root')
         );
+    }
 
-}
+    var styles = {
+        baseText: {
+            fontSize: 20,
+            textAlign: 'center'
+        },
+        titleText: {
+            fontSize: 30,
+            fontWeight: 'bold',
+            textAlign: 'center'
+        }
+    }
 
-const App = () => (
-  <MuiThemeProvider>
-    <div>
-    
-    <CardExampleExpandable country="Country" region="Region" button1="1"/>
-</div>
-        </MuiThemeProvider>
-  
-    
-);
+    // Defines the landing element while we get data from the site.
+    const landingElement=( 
+        <div>
+            <h1 style={styles.titleText}>Nation Info</h1>   
+            <h2 style={styles.baseText}> Built with React </h2>
+            <h2 style={styles.baseText}> Loading info... </h2>
+        <Loading align='center' type='spin' color='#446CB3'/>
+        </div>
+    );
 
-ReactDOM.render(
-        <App/>,
+    ReactDOM.render(
+        landingElement,
         document.getElementById('root')
     );
 
     getNationInfo(baseURL + endpoint)
-
