@@ -5,18 +5,24 @@ import FlatButton from 'material-ui/FlatButton';
 
 const CardExampleExpandable = (props) => (
   <Card>
-    this.setState(true)
     <CardHeader
-      title={props.country}
-      subtitle={props.region}
+      title={props.additionalData.name}
+      subtitle={props.additionalData.region}
       actAsExpander={true}
       showExpandableButton={true}
     />
     <CardActions>
+        <FlatButton label={props.additionalData.population} />
+        <FlatButton label={props.additionalData.area} />
+        <FlatButton label={props.additionalData.density} />
     </CardActions>
     <CardText expandable={true}>
-{props.additionalInfo}
-
+        <ul>
+            <li>{"The alpha 2 code is " + props.additionalData.alpha2Code}</li>
+            <li>{"The capital city is " + props.additionalData.capital}</li>
+            <li>{"The number of timezones are "}</li>
+            <li>{"The spoken languages are" }</li>
+        </ul>
     </CardText>
   </Card>
 );

@@ -118,7 +118,6 @@ function parseJSON(nationResponse) {
     }
 }
 
-
 function displayNation(nationInfoArray) {
     var names = [];
     var regions = [];
@@ -126,13 +125,23 @@ function displayNation(nationInfoArray) {
         names.push(nationInfoArray[i]["name"])
         regions.push(nationInfoArray[i]["region"])
     }
-    console.log({names})
-    
+        
     var Hello = React.createClass({
-    render: function() {
-        var namesList = names.map(function(name){
-            return <CardExampleExpandable country={name} />;
-        })
+    render: function() {    
+    var namesList = names.map(function(name){
+    var foundCountry = {}
+    var additionalData = []
+
+    // Find the country in the list of countries to get the other data.
+    // TODO: Find a quicker way to do this, the search takes a while.
+    for (var i = 0; i < nationInfoArray.length; i++) {
+        if (nationInfoArray[i].name == name) {
+            foundCountry = nationInfoArray[i]
+            return <CardExampleExpandable key={name} additionalData={foundCountry} />
+        }
+    }            
+
+    })
         return <ul>{namesList}</ul>
     }
 });
@@ -160,7 +169,6 @@ const App = () => (
   <MuiThemeProvider>
     <div>
     
-    <CardExampleExpandable country="Country" region="Region" button1="1"/>
 </div>
         </MuiThemeProvider>
   
