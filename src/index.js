@@ -17,7 +17,12 @@ var endpoint = "region/africa"
 
 var Loading = require('react-loading');
 
+// Contains all information about the nations
 var nationInfoArray = [];
+
+// Modfied for display.
+var nationDisplayArray = [];
+
 
 // Functions
 // Generic async request found @ w3school.
@@ -86,7 +91,13 @@ function parseJSON(nationResponse) {
             nationInfoArray.push(nationInfo)
         }
         console.log(nationInfoArray)
-        displayNation(nationInfoArray[0].name + " Population: " + nationInfoArray[0].population + " Density: " + nationInfoArray[0].density)
+        
+        for (var y = 0; y < nationInfoArray.length; y++) {
+            nationDisplayArray[y] = nationInfoArray[y].name + " " + nationInfoArray[y].population + "(people) " + nationInfoArray[y].density + ("(people/km^2)")
+        }
+        
+        console.log(nationDisplayArray)
+        displayNation(nationDisplayArray)
     }
 }
 
@@ -94,7 +105,6 @@ function parseJSON(nationResponse) {
 
 function displayNation(nationData) {
 
-    
     var styles = {
         baseButton: {
             fontSize: 15,
@@ -107,16 +117,31 @@ function displayNation(nationData) {
         nationInfoArray.sort(function (a, b) {
             return a.name.localeCompare(b.name);
         })
-displayNation(nationInfoArray[0].name + " Population: " + nationInfoArray[0].population + " Density: " + nationInfoArray[0].density)    }
+console.log("name sort")
+        
+for (var y = 0; y < nationInfoArray.length; y++) {
+            nationDisplayArray[y] = nationInfoArray[y].name + " " + nationInfoArray[y].population + "(people) " + nationInfoArray[y].density + ("(people/km^2)")
+        } 
+
+        displayNation(nationDisplayArray)
+
+    }
 
     function densitySort() {
         nationInfoArray.sort(function (a, b) {
             return parseFloat(a.density) - parseFloat(b.density);
         });
-displayNation(nationInfoArray[0].name + " Population: " + nationInfoArray[0].population + " Density: " + nationInfoArray[0].density)    }
+        
+for (var y = 0; y < nationInfoArray.length; y++) {
+            nationDisplayArray[y] = nationInfoArray[y].name + " " + nationInfoArray[y].population + "(people) " + nationInfoArray[y].density + ("(people/km^2)")
+        }
+    console.log("den sort")
+        displayNation(nationDisplayArray)
+
+    }
     
-    function additionalInfo() {
-        window.alert()
+    function additionalInfo(index) {
+        window.alert("clicked")
     }
     
     const nationElement = (
@@ -127,9 +152,9 @@ displayNation(nationInfoArray[0].name + " Population: " + nationInfoArray[0].pop
         
   var Hello = React.createClass({
     render: function() {
-    	var names = ['Jake', 'Jon', 'Thruster'];
-        var namesList = names.map(function(name, index){
-            			return <li key={ index }>{name} <button style={styles.baseButton} onClick={additionalInfo} type="button">More Info </button></li>;
+        var namesList = nationData.map(function(name, index){
+            			return <li key={ index }>{name} 
+                            <button style={styles.baseButton} onClick={additionalInfo} type="button"> Info </button></li>;
           			})
                     
         return <ol>{namesList} </ol> 
