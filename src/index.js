@@ -4,6 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Button from './components/button';
 import CardExampleExpandable from './components/gridlist'
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import RadioButtonExampleSimple from './components/radio'
 injectTapEventPlugin();
 
 // Constants
@@ -16,6 +17,9 @@ var endpoint = "region/africa"
 
 // Contains all information about the nations
 var nationInfoArray = [];
+
+var nameSorted = true;
+
 
 // Functions
 // Generic async request found @ w3school.
@@ -42,6 +46,7 @@ function getNationInfo(url) {
 // Basic sort function by name. Called on click and is the
 // default load. Need it in the global scope for now.
 function nameSort(increment) {
+    console.log("hre")
     nationInfoArray.sort(function (a, b) {
         if (increment) {
             return a.name.localeCompare(b.name);
@@ -50,7 +55,21 @@ function nameSort(increment) {
             return b.name.localeCompare(a.name);
         }
     })
-    }
+}
+
+
+// Basic sort function by density. Called on click, will
+// fire off display.
+function densitySort(increment) {
+    nationInfoArray.sort(function (a, b) {
+        if (increment) {
+            return parseFloat(a.density) - parseFloat(b.density);
+            }
+        else {
+            return parseFloat(b.density) - parseFloat(a.density);
+            }
+    });
+}
 
 // Wrapper for JSON parsing. We should only get here if we got a valid response
 // from the server.
@@ -127,33 +146,37 @@ function displayNation(nationInfoArray) {
     }
 });
 
+function onChange(value) {
+    if (nameSorted) {
+        nameSorted = false
+        densitySort(true)
+    }
+    else {
+        nameSorted = true
+        nameSort(true)
+    }
+    displayNation(nationInfoArray)
+}
 
 const rootElement = (
-      <MuiThemeProvider>
-
-            <div>
-    <Button name="Sort By Name" isPrimary={true} isSecondary={false} onClick={nameSort}/>
-    <Button name="Sort By Population Density" isPrimary={false} isSecondary={true} />
+    <MuiThemeProvider>
+        <div>
+            <RadioButtonExampleSimple change={onChange}/>
+            <br/>
             <Cards/>
-            </div>
-      </MuiThemeProvider>
-
-        );
-
+        </div>
+      </MuiThemeProvider>);
         ReactDOM.render(
             rootElement,
             document.getElementById('root')
         );
-
 }
 
 const App = () => (
-  <MuiThemeProvider>
-    <div>
-</div>
-        </MuiThemeProvider>
-  
-    
+    <MuiThemeProvider>
+        <div>
+        </div>
+    </MuiThemeProvider>
 );
 
 ReactDOM.render(
