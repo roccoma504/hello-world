@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Button from './components/button';
 import CardExampleExpandable from './components/gridlist'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import RadioButtonExampleSimple from './components/radio'
+import LinearProgress from 'material-ui/LinearProgress';
+import AppBar from 'material-ui/AppBar';
+
 injectTapEventPlugin();
 
 // Constants
@@ -46,14 +48,8 @@ function getNationInfo(url) {
 // Basic sort function by name. Called on click and is the
 // default load. Need it in the global scope for now.
 function nameSort(increment) {
-    console.log("hre")
     nationInfoArray.sort(function (a, b) {
-        if (increment) {
-            return a.name.localeCompare(b.name);
-        }
-        else {
-            return b.name.localeCompare(a.name);
-        }
+            return a.region.localeCompare(b.region) || a.name.localeCompare(b.name) 
     })
 }
 
@@ -62,12 +58,7 @@ function nameSort(increment) {
 // fire off display.
 function densitySort(increment) {
     nationInfoArray.sort(function (a, b) {
-        if (increment) {
-            return parseFloat(a.density) - parseFloat(b.density);
-            }
-        else {
-            return parseFloat(b.density) - parseFloat(a.density);
-            }
+            return a.region.localeCompare(b.region) || parseFloat(a.density) - parseFloat(b.density)
     });
 }
 
@@ -121,6 +112,7 @@ function parseJSON(nationResponse) {
 }
 
 function displayNation(nationInfoArray) {
+    
     var names = [];
     var regions = [];
     for (var i = 0; i < nationInfoArray.length; i++) {
@@ -137,7 +129,7 @@ function displayNation(nationInfoArray) {
     for (var i = 0; i < nationInfoArray.length; i++) {
         if (nationInfoArray[i].name === name) {
             foundCountry = nationInfoArray[i]
-            return <CardExampleExpandable key={name} additionalData={foundCountry} />
+            return <CardExampleExpandable key={name} additionalData={foundCountry} subtitleColor="#D24D57"/>
         }
     }            
 
@@ -161,6 +153,10 @@ function onChange(value) {
 const rootElement = (
     <MuiThemeProvider>
         <div>
+    <AppBar
+    title="Nation Info"
+  />
+    <br/>
             <RadioButtonExampleSimple change={onChange}/>
             <br/>
             <Cards/>
@@ -175,6 +171,12 @@ const rootElement = (
 const App = () => (
     <MuiThemeProvider>
         <div>
+      <AppBar
+    title="Nation Info Is Loading"
+  />
+    <br/>
+      <LinearProgress mode="indeterminate" />
+
         </div>
     </MuiThemeProvider>
 );

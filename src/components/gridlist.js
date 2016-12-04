@@ -19,11 +19,14 @@ const CardExampleExpandable = (props) => (
     />
     <CardActions>
         <FlatButton label={"Population: "+numberWithCommas(props.additionalData.population)} />
-        <FlatButton label={"Area: " +numberWithCommas(props.additionalData.area)} />
-        <FlatButton label={"Population Density: "+ numberWithCommas(props.additionalData.density)} />
+        <FlatButton label={"Area: " + numberWithCommas(props.additionalData.area)} primary={true}  />
+        <FlatButton label={"Population Density: "+ numberWithCommas(props.additionalData.density)} secondary={true} />
     </CardActions>
     <CardText expandable={true}>
         <ul>
+            <li>{"There are " + numberWithCommas(props.additionalData.population) + " people."} </li>
+            <li>{"The area is " + numberWithCommas(props.additionalData.area) + " square kilometers."} </li>
+            <li>{"The population density is " + numberWithCommas(props.additionalData.density) + " people per square kilometer"} </li>
             <li>{"The alpha 2 code is " + props.additionalData.alpha2Code}</li>
             <li>{"The capital city is " + props.additionalData.capital}</li>
             <li>{"There are " + props.additionalData.timezones.length + " timezone(s)."}</li>

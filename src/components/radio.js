@@ -17,12 +17,12 @@ const RadioButtonExampleSimple = (props) => (
     <RadioButtonGroup name="sort" defaultSelected="name" onChange={props.change}>
       <RadioButton
         value="name"
-        label="Sort by name"
+        label="Sort By Name"
         style={styles.radioButton}
       />
       <RadioButton
         value="density"
-        label="Sort by density"
+        label="Sort Sort By Population Density"
         style={styles.radioButton}
       />
     </RadioButtonGroup>
