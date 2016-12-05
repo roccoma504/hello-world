@@ -29,6 +29,7 @@ The below were my interpretation and implementation of the requirements.
 2) Sorted by name or population
 
 - **IMPLEMENTATION**: Allow the user to sort by name or by population via a radio button as I was't sure which one was needed.
+
  ![Image of button](https://github.com/roccoma504/hello-world/blob/master/images/radio.png)
 
 
@@ -40,14 +41,17 @@ The below were my interpretation and implementation of the requirements.
  4. Region
  5. Population
  6. Area
- 7. # of timezones
+ 7. # of timezone
  8. Languages spoken
  
  **IMPLEMENTATION**: Created the cards to be expandable allowing the user to see additional data without clogging up the screen.
  
+  ![Image of card closed](https://github.com/roccoma504/hello-world/blob/master/images/card_closed.png)
+
+ 
  ![Image of card](https://github.com/roccoma504/hello-world/blob/master/images/card.png)
  
-  ![Image of card closed](https://github.com/roccoma504/hello-world/blob/master/images/card_closed.png)
+ 
 
  
 Usage
