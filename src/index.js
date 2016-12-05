@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import App from './App';
-import './index.css';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import NationCard from './components/gridlist'
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import SortRadioButton from './components/radio'
+import LinearProgress from 'material-ui/LinearProgress';
+import AppBar from 'material-ui/AppBar';
 
-
-//https://www.npmjs.com/package/react-loading
-
+injectTapEventPlugin();
 
 // Constants
 // Define the base URL for flex when building enpoints.
@@ -15,10 +17,12 @@ const baseURL = "https://restcountries.eu/rest/v1/"
 // Expandable endpoint variable.
 var endpoint = "all"
 
-var Loading = require('react-loading');
-
 // Contains all information about the nations
 var nationInfoArray = [];
+
+// Nation array sorted by name.
+// Note: Array is always sorted by region first.
+var isNameSorted = true;
 
 // Functions
 // Generic async request found @ w3school.
@@ -27,9 +31,9 @@ function getNationInfo(url) {
     xmlHttp.onreadystatechange = function () {
         // This means the response is ready from the server.
         // 4 - Response is ready
-        if (xmlHttp.readyState === 4) {
+        if (xmlHttp.readyState===4) {
             // 200 - Good request
-            if (xmlHttp.status === 200) {
+            if (xmlHttp.status===200) {
                 // console.log(xmlHttp.responseText);
                 parseJSON(xmlHttp.responseText)
             } else { //There was some issue
@@ -42,33 +46,19 @@ function getNationInfo(url) {
     xmlHttp.send(null);
 }
 
-// Format the data for display. We cat all the info together that we need.
-function formatedNationInfo(nationInfoArray) {
-    // Modfied for display.
-    var nationDisplayArray = [];
-   /* for (var y = 0; y < nationInfoArray.length; y++) {
-        nationDisplayArray[y] = nationInfoArray[y].name.toLocaleString() + " " + nationInfoArray[y].population.toLocaleString() + "(people) " + nationInfoArray[y].density.toLocaleString() + ("(people/km^2)")
-    }*/
-    for (var y = 0; y < nationInfoArray.length; y++) {
-        nationDisplayArray[y] = nationInfoArray[y].name.toLocaleString() + " " + nationInfoArray[y].region.toLocaleString()
-    }
-    return nationDisplayArray;
-}
-
-// Basic sort function by name. Called on click and is the
-// default load. Need it in the global scope for now.
+// Basic sort function by name. Called on click.
 function nameSort(increment) {
     nationInfoArray.sort(function (a, b) {
-        if (increment) {
-            return a.name.localeCompare(b.name);
-        }
-        else {
-            return b.name.localeCompare(a.name);
-        }
+            return a.region.localeCompare(b.region) || a.name.localeCompare(b.name) 
     })
-    displayNation(formatedNationInfo(nationInfoArray))
-    }
+}
 
+// Basic sort function by density. Called on click..
+function densitySort(increment) {
+    nationInfoArray.sort(function (a, b) {
+            return a.region.localeCompare(b.region) || parseFloat(a.density) - parseFloat(b.density)
+    });
+}
 
 // Wrapper for JSON parsing. We should only get here if we got a valid response
 // from the server.
@@ -101,8 +91,7 @@ function parseJSON(nationResponse) {
                 nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
             }
 
-            // Check for area validity. It is assumed all countries
-            // have at least a population of 1 so we don't check it.
+            // Check for area validity.
             if (nationInfo["area"] === null) {
                 nationInfo["area"] = 0
                 nationInfo["density"] = 0
@@ -113,91 +102,84 @@ function parseJSON(nationResponse) {
             }
             nationInfoArray.push(nationInfo)
         }
-        console.log(nationInfoArray)
         nameSort(true)
+        displayNation(nationInfoArray)
     }
 }
 
-// Core display function.
-function displayNation(nationData) {
-    // Button style
-    const styles = {
-        baseButton: {
-            fontSize: 15,
-            textAlign: 'center',
-            color: '#446CB3',
-        }
-    }
-
-    // Basic sort function by density. Called on click, will
-    // fire off display.
-    function densitySort(increment) {
-        nationInfoArray.sort(function (a, b) {
-            if (increment) {
-                return parseFloat(a.density) - parseFloat(b.density);
-            }
-            else {
-                return parseFloat(b.density) - parseFloat(a.density);
-            }
-        });
-        displayNation(formatedNationInfo(nationInfoArray))
-    }
-
-    function additionalInfo(index) {
-        window.alert("clicked")
-    }
+// Core display function. Contains a React class for a MUI
+// card which is reused to display all the data.
+function displayNation(nationInfoArray) {
+    var names = [];
     
-        var Nation = React.createClass({
-            render: function () {
-                var namesList = nationData.map(function (name, index) {
-                    return <li key={index} > {name} 
-                <button style={styles.baseButton} onClick={additionalInfo} id={name} type="button">Info</button> </li>;
-                })
-                return <ol> {namesList} </ol> 
-            }
-        });
-
-        const rootElement = (
-            <div>
-                <button style={styles.baseButton}
-                    onClick={nameSort} type="button">Sort By Name </button> 
-                <button style={styles.baseButton}
-                    onClick={densitySort} type="button">Sort By Density </button>   
-            <Nation/>
-            </div>
-        );
-
-        ReactDOM.render(
-            rootElement,
-            document.getElementById('root')
-        );
+    // Create an array of just nation names.
+    for (var i = 0; i < nationInfoArray.length; i++) {
+        names.push(nationInfoArray[i]["name"])
     }
-
-    var styles = {
-        baseText: {
-            fontSize: 20,
-            textAlign: 'center'
-        },
-        titleText: {
-            fontSize: 30,
-            fontWeight: 'bold',
-            textAlign: 'center'
+        
+    // Recact class for displaying a MUI card.
+    var Cards = React.createClass({
+    render: function() {    
+    var namesList = names.map(function(name){
+    var foundCountry = {}
+    // Find the country in the dict of countries to get the other data.
+    for (var i = 0; i < nationInfoArray.length; i++) {
+        if (nationInfoArray[i].name === name) {
+            foundCountry = nationInfoArray[i]
+            return (
+                <div key={name}>
+                    <NationCard key={name} additionalData={foundCountry} subtitleColor="#D24D57"/>
+                    <br/>
+                </div>
+            )}}})
+        return <ul>{namesList}</ul>
         }
+    });
+    
+// Function for radio buttons.
+function onChange(value) {
+    if (isNameSorted) {
+        isNameSorted = false
+        densitySort(true)
     }
-
-    // Defines the landing element while we get data from the site.
-    const landingElement=( 
+    else {
+        isNameSorted = true
+        nameSort(true)
+    }
+    displayNation(nationInfoArray)
+}
+ 
+// Defines element that is showed after a successful request.
+const cardElement=(
+    <MuiThemeProvider>
         <div>
-            <h1 style={styles.titleText}>Nation Info</h1>   
-            <h2 style={styles.baseText}> Built with React </h2>
-            <h2 style={styles.baseText}> Loading info... </h2>
-        <Loading align='center' type='spin' color='#446CB3'/>
+            <AppBar title="Nation Info"/>
+            <br/>
+            <SortRadioButton change={onChange}/>
+            <br/>
+            <Cards/>
         </div>
-    );
-
+      </MuiThemeProvider>);
     ReactDOM.render(
-        landingElement,
-        document.getElementById('root')
-    );
+        cardElement,
+        document.getElementById('root'));
+}
 
-    getNationInfo(baseURL + endpoint)
+// Defines element that is showed at page load.
+const App=() => (
+    <MuiThemeProvider>
+        <div>
+            <AppBar title="Nation Info Is Loading"/>
+            <br/>
+            <LinearProgress mode="indeterminate" />
+        </div>
+    </MuiThemeProvider>
+);
+
+ReactDOM.render(
+        <App/>,
+        document.getElementById('root'));
+
+// Fire off request on load.
+getNationInfo(baseURL + endpoint)
+
