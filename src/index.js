@@ -1,12 +1,13 @@
+import AppBar from 'material-ui/AppBar';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import LinearProgress from 'material-ui/LinearProgress';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import NationCard from './components/cards'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import NationCard from './components/gridlist'
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import SortRadioButton from './components/radio'
-import LinearProgress from 'material-ui/LinearProgress';
-import AppBar from 'material-ui/AppBar';
 
+// Safari issue where this is needed.
 injectTapEventPlugin();
 
 // Constants
