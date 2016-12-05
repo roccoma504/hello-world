@@ -15,7 +15,7 @@ const baseURL = "https://restcountries.eu/rest/v1/"
 
 // Variables
 // Expandable endpoint variable.
-var endpoint = "region/africa"
+var endpoint = "all"
 
 // Contains all information about the nations
 var nationInfoArray = [];
