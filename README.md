@@ -58,17 +58,9 @@ Usage
 -------------------
 > cd 'project directory'
 
-
-----------
-
-
 > npm start
 
-
-----------
-
-
->Navigate to port 3000
+> Navigate to port 3000
 
 The app will load automatically. If there is an error the user will be notified.
 
