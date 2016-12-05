@@ -35,7 +35,6 @@ function getNationInfo(url) {
         if (xmlHttp.readyState===4) {
             // 200 - Good request
             if (xmlHttp.status===200) {
-                // console.log(xmlHttp.responseText);
                 parseJSON(xmlHttp.responseText)
             } 
             else { //There was some issue
@@ -52,7 +51,7 @@ function getNationInfo(url) {
 function nameSort(increment) {
     nationInfoArray.sort(function (a, b) {
             return a.region.localeCompare(b.region) || a.name.localeCompare(b.name) 
-    })
+    });
 }
 
 // Basic sort function by density. Called on click.
