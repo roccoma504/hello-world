@@ -30,9 +30,9 @@ function getNationInfo(url) {
     xmlHttp.onreadystatechange = function () {
         // This means the response is ready from the server.
         // 4 - Response is ready
-        if (xmlHttp.readyState === 4) {
+        if (xmlHttp.readyState===4) {
             // 200 - Good request
-            if (xmlHttp.status === 200) {
+            if (xmlHttp.status===200) {
                 // console.log(xmlHttp.responseText);
                 parseJSON(xmlHttp.responseText)
             } else { //There was some issue
@@ -129,7 +129,12 @@ function displayNation(nationInfoArray) {
     for (var i = 0; i < nationInfoArray.length; i++) {
         if (nationInfoArray[i].name === name) {
             foundCountry = nationInfoArray[i]
-            return <CardExampleExpandable key={name} additionalData={foundCountry} subtitleColor="#D24D57"/>
+            return (
+                <div key={name}>
+                <CardExampleExpandable key={name} additionalData={foundCountry} subtitleColor="#D24D57"/>
+                <br/>
+                </div>
+                )
         }
     }            
 
