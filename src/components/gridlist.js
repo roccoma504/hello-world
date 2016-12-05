@@ -1,9 +1,8 @@
+import FlatButton from 'material-ui/FlatButton';
 import React from 'react';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
 
-
-
+// Constant map to title colors.
 const titleColor = {
     "Africa"   : "#E91E63",
     "Americas" : "#673AB7",
@@ -13,6 +12,7 @@ const titleColor = {
     "Polar"    : "#FF9800"
 }
 
+// Constant map to region colors.
 const regionColor = {
     "Africa"   : "#f44336",
     "Americas" : "#9C27B0",
@@ -22,14 +22,18 @@ const regionColor = {
     "Polar"    : "#FFC107"
 }
 
+// Function to add commas to numbers.
+// TODO: Figure out why toLocal isn't working.
 function numberWithCommas(x) {
     var parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
 }
 
-const CardExampleExpandable = (props) => (
-  <Card color="#D24D57" >
+// Defines a MUI card. The card is configured to be expandable.
+// The additional required information is under the expansion.
+const NationCard = (props) => (
+  <Card>
     <CardHeader
       title={props.additionalData.name}
       titleColor={titleColor[props.additionalData.region]}
@@ -57,4 +61,4 @@ const CardExampleExpandable = (props) => (
   </Card>
 );
 
-export default CardExampleExpandable;
+export default NationCard;

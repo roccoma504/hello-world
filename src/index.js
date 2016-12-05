@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import CardExampleExpandable from './components/gridlist'
+import NationCard from './components/gridlist'
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import RadioButtonExampleSimple from './components/radio'
+import SortRadioButton from './components/radio'
 import LinearProgress from 'material-ui/LinearProgress';
 import AppBar from 'material-ui/AppBar';
 
@@ -91,8 +91,7 @@ function parseJSON(nationResponse) {
                 nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
             }
 
-            // Check for area validity. It is assumed all countries
-            // have at least a population of 1 so we don't check it.
+            // Check for area validity.
             if (nationInfo["area"] === null) {
                 nationInfo["area"] = 0
                 nationInfo["density"] = 0
@@ -129,7 +128,7 @@ function displayNation(nationInfoArray) {
             foundCountry = nationInfoArray[i]
             return (
                 <div key={name}>
-                    <CardExampleExpandable key={name} additionalData={foundCountry} subtitleColor="#D24D57"/>
+                    <NationCard key={name} additionalData={foundCountry} subtitleColor="#D24D57"/>
                     <br/>
                 </div>
             )}}})
@@ -156,7 +155,7 @@ const cardElement=(
         <div>
             <AppBar title="Nation Info"/>
             <br/>
-            <RadioButtonExampleSimple change={onChange}/>
+            <SortRadioButton change={onChange}/>
             <br/>
             <Cards/>
         </div>

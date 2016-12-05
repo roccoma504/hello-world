@@ -10,9 +10,9 @@ const styles = {
   },
 };
 
-
-
-const RadioButtonExampleSimple = (props) => (
+// MUI radio buttons. Used for sorting.
+// TODO: Pass in more prop info if used again.
+const SortRadioButton = (props) => (
   <div>
     <RadioButtonGroup name="sort" defaultSelected="name" onChange={props.change}>
       <RadioButton
@@ -29,4 +29,4 @@ const RadioButtonExampleSimple = (props) => (
   </div>
 );
 
-export default RadioButtonExampleSimple;
+export default SortRadioButton;
