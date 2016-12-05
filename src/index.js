@@ -20,8 +20,9 @@ var endpoint = "all"
 // Contains all information about the nations
 var nationInfoArray = [];
 
-var nameSorted = true;
-
+// Nation array sorted by name.
+// Note: Array is always sorted by region first.
+var isNameSorted = true;
 
 // Functions
 // Generic async request found @ w3school.
@@ -45,17 +46,14 @@ function getNationInfo(url) {
     xmlHttp.send(null);
 }
 
-// Basic sort function by name. Called on click and is the
-// default load. Need it in the global scope for now.
+// Basic sort function by name. Called on click.
 function nameSort(increment) {
     nationInfoArray.sort(function (a, b) {
             return a.region.localeCompare(b.region) || a.name.localeCompare(b.name) 
     })
 }
 
-
-// Basic sort function by density. Called on click, will
-// fire off display.
+// Basic sort function by density. Called on click..
 function densitySort(increment) {
     nationInfoArray.sort(function (a, b) {
             return a.region.localeCompare(b.region) || parseFloat(a.density) - parseFloat(b.density)
@@ -105,91 +103,84 @@ function parseJSON(nationResponse) {
             }
             nationInfoArray.push(nationInfo)
         }
-        console.log(nationInfoArray)
         nameSort(true)
         displayNation(nationInfoArray)
     }
 }
 
+// Core display function. Contains a React class for a MUI
+// card which is reused to display all the data.
 function displayNation(nationInfoArray) {
-    
     var names = [];
-    var regions = [];
+    
+    // Create an array of just nation names.
     for (var i = 0; i < nationInfoArray.length; i++) {
         names.push(nationInfoArray[i]["name"])
-        regions.push(nationInfoArray[i]["region"])
     }
         
+    // Recact class for displaying a MUI card.
     var Cards = React.createClass({
     render: function() {    
     var namesList = names.map(function(name){
     var foundCountry = {}
-    // Find the country in the list of countries to get the other data.
-    // TODO: Find a quicker way to do this, the search takes a while.
+    // Find the country in the dict of countries to get the other data.
     for (var i = 0; i < nationInfoArray.length; i++) {
         if (nationInfoArray[i].name === name) {
             foundCountry = nationInfoArray[i]
             return (
                 <div key={name}>
-                <CardExampleExpandable key={name} additionalData={foundCountry} subtitleColor="#D24D57"/>
-                <br/>
+                    <CardExampleExpandable key={name} additionalData={foundCountry} subtitleColor="#D24D57"/>
+                    <br/>
                 </div>
-                )
-        }
-    }            
-
-    })
+            )}}})
         return <ul>{namesList}</ul>
-    }
-});
-
+        }
+    });
+    
+// Function for radio buttons.
 function onChange(value) {
-    if (nameSorted) {
-        nameSorted = false
+    if (isNameSorted) {
+        isNameSorted = false
         densitySort(true)
     }
     else {
-        nameSorted = true
+        isNameSorted = true
         nameSort(true)
     }
     displayNation(nationInfoArray)
 }
-
-const rootElement = (
+ 
+// Defines element that is showed after a successful request.
+const cardElement=(
     <MuiThemeProvider>
         <div>
-    <AppBar
-    title="Nation Info"
-  />
-    <br/>
+            <AppBar title="Nation Info"/>
+            <br/>
             <RadioButtonExampleSimple change={onChange}/>
             <br/>
             <Cards/>
         </div>
       </MuiThemeProvider>);
-        ReactDOM.render(
-            rootElement,
-            document.getElementById('root')
-        );
+    ReactDOM.render(
+        cardElement,
+        document.getElementById('root'));
 }
 
-const App = () => (
+// Defines element that is showed at page load.
+const App=() => (
     <MuiThemeProvider>
         <div>
-      <AppBar
-    title="Nation Info Is Loading"
-  />
-    <br/>
-      <LinearProgress mode="indeterminate" />
-
+            <AppBar title="Nation Info Is Loading"/>
+            <br/>
+            <LinearProgress mode="indeterminate" />
         </div>
     </MuiThemeProvider>
 );
 
 ReactDOM.render(
         <App/>,
-        document.getElementById('root')
-    );
+        document.getElementById('root'));
 
-    getNationInfo(baseURL + endpoint)
+// Fire off request on load.
+getNationInfo(baseURL + endpoint)
 

@@ -32,9 +32,9 @@ const CardExampleExpandable = (props) => (
   <Card color="#D24D57" >
     <CardHeader
       title={props.additionalData.name}
-      titleColor = {titleColor[props.additionalData.region]}
+      titleColor={titleColor[props.additionalData.region]}
       subtitle={props.additionalData.region}
-      subtitleColor = {regionColor[props.additionalData.region]}
+      subtitleColor={regionColor[props.additionalData.region]}
       actAsExpander={true}
       showExpandableButton={true}
     />
