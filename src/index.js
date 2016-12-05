@@ -37,7 +37,8 @@ function getNationInfo(url) {
             if (xmlHttp.status===200) {
                 // console.log(xmlHttp.responseText);
                 parseJSON(xmlHttp.responseText)
-            } else { //There was some issue
+            } 
+            else { //There was some issue
                 window.alert("HTTP error: " + xmlHttp.status +
                     ". Try reloading the page.")
             }
@@ -54,7 +55,7 @@ function nameSort(increment) {
     })
 }
 
-// Basic sort function by density. Called on click..
+// Basic sort function by density. Called on click.
 function densitySort(increment) {
     nationInfoArray.sort(function (a, b) {
             return a.region.localeCompare(b.region) || parseFloat(a.density) - parseFloat(b.density)
