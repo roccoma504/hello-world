@@ -8,8 +8,9 @@ A few tools were used to make this app.
 
 - This app was made using the [react generator](https://github.com/facebookincubator/create-react-app)
 - The Google [Material UI](http://www.material-ui.com/#/) was implemented 
--  [w3 school](http://www.w3schools.com) got my JS and HTML mostly presentable
+- [w3 school](http://www.w3schools.com) got my JS and HTML mostly presentable
 - Nation info was found at [rest countries](https://restcountries.eu)
+- Colors were picked from [material UI Colors](https://www.materialui.co/colors)
 
 Introduction
 -------------
