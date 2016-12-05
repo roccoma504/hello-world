@@ -2,6 +2,8 @@ Welcome to Nation Info!
 ===================
 This is an attempt a React app by Matt Rocco.
 
+CodeCov score [![Code Climate](https://codeclimate.com/github/roccoma504/hello-world/badges/gpa.svg)](https://codeclimate.com/github/roccoma504/hello-world)
+
 References
 -------------
 A few tools were used to make this app.
