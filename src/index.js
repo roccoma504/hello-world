@@ -90,7 +90,7 @@ function parseJSON(nationResponse) {
             var nationInfo = {};
             for (var infoKey = 0; infoKey < keyArray.length; infoKey++) {
                 nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
-                
+                //console.log(parsedResponse[i][keyArray[infoKey]])
                 // If the result is null replace it with N/A
                 if (parsedResponse[i][keyArray[infoKey]] === null) {
                     nationInfo[keyArray[infoKey]]="N/A"
@@ -111,12 +111,9 @@ function parseJSON(nationResponse) {
                 if (infoKey === keyArray.indexOf("languages") && parsedResponse[i][keyArray[infoKey]] !== null) {
                     console.log(parsedResponse[i][keyArray[infoKey]])
                     for (var y = 0; y < nationInfo[keyArray[infoKey]].length; y++) {
-   
-                        var newString = nationInfo[keyArray[infoKey]][y].toUpperCase
-                        
-                        console.log(nationInfo[keyArray[infoKey]][y].toUpperCase)
+                        //Convert languages to upper for viewing.
+                        const newString = nationInfo[keyArray[infoKey]][y].toUpperCase()                        
                         nationInfo[keyArray[infoKey]][y] = newString
-                        //nationInfo[keyArray[infoKey]][y] = upperString
                     }
                 }
             }
