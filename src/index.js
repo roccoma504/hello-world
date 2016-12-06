@@ -12,11 +12,11 @@ injectTapEventPlugin();
 
 // Constants
 // Define the base URL for flex when building enpoints.
-const baseURL = "https://restcountries.eu/rest/v1/"
+const baseURL = "https://restcountries.eu/rest/v1/";
 
 // Variables
 // Expandable endpoint variable.
-var endpoint = "all"
+var endpoint = "all";
 
 // Contains all information about the nations
 var nationInfoArray = [];
@@ -30,16 +30,16 @@ var isNameSorted = true;
 function getNationInfo(url) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
-        // This means the response is ready from the server.
+        // The response is ready from the server.
         // 4 - Response is ready
         if (xmlHttp.readyState===4) {
             // 200 - Good request
             if (xmlHttp.status===200) {
                 // console.log(xmlHttp.responseText);
-                parseJSON(xmlHttp.responseText)
+                parseJSON(xmlHttp.responseText);
             } else { //There was some issue
                 window.alert("HTTP error: " + xmlHttp.status +
-                    ". Try reloading the page.")
+                    ". Try reloading the page.");
             }
         }
     }
@@ -50,14 +50,14 @@ function getNationInfo(url) {
 // Basic sort function by name. Called on click.
 function nameSort(increment) {
     nationInfoArray.sort(function (a, b) {
-            return a.region.localeCompare(b.region) || a.name.localeCompare(b.name) 
-    })
+            return a.region.localeCompare(b.region) || a.name.localeCompare(b.name);
+    });
 }
 
 // Basic sort function by density. Called on click..
 function densitySort(increment) {
     nationInfoArray.sort(function (a, b) {
-            return a.region.localeCompare(b.region) || parseFloat(a.density) - parseFloat(b.density)
+            return a.region.localeCompare(b.region) || parseFloat(a.density) - parseFloat(b.density);
     });
 }
 
@@ -65,10 +65,10 @@ function densitySort(increment) {
 // from the server.
 function parseJSON(nationResponse) {
     // Parse the retrieved message.
-    const parsedJSON = JSON.parse(nationResponse)
+    const parsedJSON = JSON.parse(nationResponse);
 
     // Build out data modal for sorting and display.
-    buildModal(parsedJSON)
+    buildModal(parsedJSON);
 
     // Builds the data modal based on the required data.
     function buildModal(parsedResponse) {
@@ -83,18 +83,21 @@ function parseJSON(nationResponse) {
         - List of languages spoken 
         - We also need to figure out population density with is people per square km
         */
-        const keyArray = ["name", "alpha2Code", "capital", "region", "population", "area", "timezones", "languages", "area"]
+        const keyArray = ["name", "alpha2Code", "capital", "region", "population", "area", "timezones", "languages", "area"];
 
         // Build our modal from the retrieved data and the required info.
         for (var i = 0; i < parsedJSON.length; i++) {
-            var nationInfo = {}
+            var nationInfo = {};
             for (var infoKey = 0; infoKey < keyArray.length; infoKey++) {
                 nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
                 
+                // If the result is null replace it with N/A
                 if (parsedResponse[i][keyArray[infoKey]] === null) {
                     nationInfo[keyArray[infoKey]]="N/A"
                 }
                 
+                // If the key is area and its null, replace both area and density
+                // with 0.
                 if (keyArray === "area" && parsedResponse[i][keyArray[infoKey]] === null) {
                         nationInfo["area"] = 0
                         nationInfo["density"] = 0
