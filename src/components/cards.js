@@ -64,7 +64,7 @@ const NationCard = (props) => (
     <CardText expandable={true}>
         <ul>
             <li>{"There are " + numberWithCommas(props.additionalData.population) + " people."}</li>
-            <li>{"The area is " + numberWithCommas(props.additionalData.area) + " square kilometers."}</li>
+            <li>{"The area is " + numberWithCommas(props.additionalData.area) + " square kilometers"}</li>
             <li>{"The population density is " + numberWithCommas(props.additionalData.density) + " people per square kilometers"}</li>
             <li>{"The alpha 2 code is " + props.additionalData.alpha2Code}</li>
             <li>{"The capital city is " + props.additionalData.capital}</li>

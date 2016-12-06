@@ -90,10 +90,9 @@ function parseJSON(nationResponse) {
             var nationInfo = {};
             for (var infoKey = 0; infoKey < keyArray.length; infoKey++) {
                 nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
-                //console.log(parsedResponse[i][keyArray[infoKey]])
                 // If the result is null replace it with N/A
-                if (parsedResponse[i][keyArray[infoKey]] === null) {
-                    nationInfo[keyArray[infoKey]]="N/A"
+                if (parsedResponse[i][keyArray[infoKey]] === null || parsedResponse[i][keyArray[infoKey]] === "") {
+                    nationInfo[keyArray[infoKey]]="unknown"
                 }
                 
                 // If the key is area and its null, replace both area and density
@@ -109,16 +108,13 @@ function parseJSON(nationResponse) {
                 }
                 
                 if (infoKey === keyArray.indexOf("languages") && parsedResponse[i][keyArray[infoKey]] !== null) {
-                    console.log(parsedResponse[i][keyArray[infoKey]])
                     for (var y = 0; y < nationInfo[keyArray[infoKey]].length; y++) {
                         //Convert languages to upper for viewing.
                         const newString = nationInfo[keyArray[infoKey]][y].toUpperCase()                        
                         nationInfo[keyArray[infoKey]][y] = newString
                     }
-                }
+                }   
             }
-
-            
             nationInfoArray.push(nationInfo)
         }
         nameSort(true)
