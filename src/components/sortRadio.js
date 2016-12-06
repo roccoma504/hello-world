@@ -3,29 +3,31 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 const styles = {
   block: {
-    maxWidth: 250,
+    maxWidth: 350,
   },
   radioButton: {
     marginBottom: 16,
+      marginLeft: 0,
+    width: "auto"
   },
 };
 
 // MUI radio buttons. Used for sorting.
 // TODO: Pass in more prop info if used again.
-const SortRadioButton = (props) => (
+export const SortRadioButton = (props) => (
   <div>
-    <RadioButtonGroup name="sort" defaultSelected="name" onChange={props.change}>
+    <RadioButtonGroup name="sort" defaultSelected="name" onChange={props.change} style={{display: "flex"}}>
       <RadioButton
         value="name"
-        label="Sort By Name"
+        label="Name"
         style={styles.radioButton}
       />
       <RadioButton
         value="density"
-        label="Sort Sort By Population Density"
+        label="By Population Density"
         style={styles.radioButton}
       />
-    </RadioButtonGroup>
+    </RadioButtonGroup> 
   </div>
 );
 

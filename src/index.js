@@ -5,7 +5,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import NationCard from './components/cards'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SortRadioButton from './components/radio'
+import RegionRadioButton from './components/filterRadio'
+import SortRadioButton from './components/sortRadio'
 
 // Safari issue where this is needed.
 injectTapEventPlugin();
@@ -111,6 +112,7 @@ function parseJSON(nationResponse) {
 // Core display function. Contains a React class for a MUI
 // card which is reused to display all the data.
 function displayNation(nationInfoArray) {
+    
     var names = [];
     
     // Create an array of just nation names.
@@ -138,7 +140,7 @@ function displayNation(nationInfoArray) {
     });
     
 // Function for radio buttons.
-function onChange(value) {
+function sortRadioChange(value) {
     if (isNameSorted) {
         isNameSorted = false
         densitySort(true)
@@ -149,6 +151,21 @@ function onChange(value) {
     }
     displayNation(nationInfoArray)
 }
+    
+// Function for radio buttons.
+function regionRadioChange(value) {
+    if (isNameSorted) {
+        isNameSorted = false
+        densitySort(true)
+    }
+    else {
+        isNameSorted = true
+        nameSort(true)
+    }
+    displayNation(nationInfoArray)
+}
+    
+
  
 // Defines element that is showed after a successful request.
 const cardElement=(
@@ -156,7 +173,9 @@ const cardElement=(
         <div>
             <AppBar title="Nation Info"/>
             <br/>
-            <SortRadioButton change={onChange}/>
+            <br/>
+            <RegionRadioButton change={regionRadioChange}/>
+            <SortRadioButton change={sortRadioChange}/>
             <br/>
             <Cards/>
         </div>
