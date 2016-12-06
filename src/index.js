@@ -3,6 +3,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import LinearProgress from 'material-ui/LinearProgress';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import NationCard from './components/cards'
+import MenuPop from './components/pop'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SortRadioButton from './components/sortRadio'
@@ -172,8 +173,9 @@ const cardElement=(
         <div>
             <AppBar title="Nation Info - Sort"/>
             <br/>
-            <SortRadioButton change={sortRadioChange}/>
+            <MenuPop nations={nationInfoArray}/>
             <br/>
+            <SortRadioButton change={sortRadioChange}/>
             <Cards/>
         </div>
       </MuiThemeProvider>);
