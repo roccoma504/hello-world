@@ -126,6 +126,7 @@ function parseJSON(nationResponse) {
 // card which is reused to display all the data.
 function displayNation(nationInfoArray) {
     
+    // Array of nation names.
     var names = [];
     
     // Create an array of just nation names.
