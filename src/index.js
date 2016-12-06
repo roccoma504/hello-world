@@ -90,17 +90,35 @@ function parseJSON(nationResponse) {
             var nationInfo = {}
             for (var infoKey = 0; infoKey < keyArray.length; infoKey++) {
                 nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
+                
+                if (parsedResponse[i][keyArray[infoKey]] === null) {
+                    nationInfo[keyArray[infoKey]]="N/A"
+                }
+                
+                if (keyArray === "area" && parsedResponse[i][keyArray[infoKey]] === null) {
+                        nationInfo["area"] = 0
+                        nationInfo["density"] = 0
+                } 
+                else {
+                    // Calculate the density rounded down which is the
+                    // general convention.
+                    nationInfo["density"] = Math.floor(nationInfo["population"] / nationInfo["area"])
+                }
+                
+                if (infoKey === keyArray.indexOf("languages") && parsedResponse[i][keyArray[infoKey]] !== null) {
+                    console.log(parsedResponse[i][keyArray[infoKey]])
+                    for (var y = 0; y < nationInfo[keyArray[infoKey]].length; y++) {
+   
+                        var newString = nationInfo[keyArray[infoKey]][y].toUpperCase
+                        
+                        console.log(nationInfo[keyArray[infoKey]][y].toUpperCase)
+                        nationInfo[keyArray[infoKey]][y] = newString
+                        //nationInfo[keyArray[infoKey]][y] = upperString
+                    }
+                }
             }
 
-            // Check for area validity.
-            if (nationInfo["area"] === null) {
-                nationInfo["area"] = 0
-                nationInfo["density"] = 0
-            } else {
-                // Calculate the density rounded down which is the
-                // general convention.
-                nationInfo["density"] = Math.floor(nationInfo["population"] / nationInfo["area"])
-            }
+            
             nationInfoArray.push(nationInfo)
         }
         nameSort(true)
@@ -133,7 +151,7 @@ function displayNation(nationInfoArray) {
                     <NationCard key={name} additionalData={foundCountry} subtitleColor="#D24D57"/>
                     <br/>
                 </div>
-            )}}})
+            )}}return null })
         return <ul>{namesList}</ul>
         }
     });

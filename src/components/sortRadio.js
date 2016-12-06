@@ -17,15 +17,15 @@ const styles = {
 // TODO: Pass in more prop info if used again.
 export const SortRadioButton = (props) => (
   <div>
-    <RadioButtonGroup name="sort" defaultSelected="name" onChange={props.change} style={{display: "flex"}}>
+    <RadioButtonGroup name='sort' defaultSelected='name' onChange={props.change} style={{display: "flex"}}>
       <RadioButton
-        value="name"
-        label="Name"
+        value='name'
+        label='Name'
         style={styles.radioButton}
       />
       <RadioButton
-        value="density"
-        label="Density"
+        value='density'
+        label='Density'
         style={styles.radioButton}
       />
     </RadioButtonGroup> 
