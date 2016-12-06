@@ -3,12 +3,13 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 const styles = {
   block: {
-    maxWidth: 350,
+    maxWidth: 500,
   },
   radioButton: {
     marginBottom: 16,
-      marginLeft: 0,
-    width: "auto"
+    marginLeft: 0,
+    width: "auto",
+    padding: 10
   },
 };
 
@@ -24,7 +25,7 @@ export const SortRadioButton = (props) => (
       />
       <RadioButton
         value="density"
-        label="By Population Density"
+        label="Density"
         style={styles.radioButton}
       />
     </RadioButtonGroup> 

@@ -1,3 +1,4 @@
+import "../index"
 import React from 'react'; 
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
@@ -7,7 +8,8 @@ const styles = {
   },
   radioButton: {
     marginBottom: 25,
-    width: "auto"
+    width: "auto",
+    padding: 10
   },
 };
 
@@ -15,7 +17,7 @@ const styles = {
 // TODO: Pass in more prop info if used again.
 export const RegionRadioButton = (props) => (
   <div>
-    <RadioButtonGroup name="sort" defaultSelected="name" onChange={props.change} style={{display: "flex"}}>
+    <RadioButtonGroup name="sort" defaultSelected="All" onChange={props.change} style={{display: "flex"}}>
       <RadioButton
         value="All"
         label="All"
