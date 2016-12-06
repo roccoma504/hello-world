@@ -5,18 +5,18 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import NationCard from './components/cards'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SortRadioButton from './components/radio'
+import SortRadioButton from './components/sortRadio'
 
 // Safari issue where this is needed.
 injectTapEventPlugin();
 
 // Constants
 // Define the base URL for flex when building enpoints.
-const baseURL = "https://restcountries.eu/rest/v1/"
+const baseURL = "https://restcountries.eu/rest/v1/";
 
 // Variables
 // Expandable endpoint variable.
-var endpoint = "all"
+var endpoint = "all";
 
 // Contains all information about the nations
 var nationInfoArray = [];
@@ -30,16 +30,16 @@ var isNameSorted = true;
 function getNationInfo(url) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
-        // This means the response is ready from the server.
+        // The response is ready from the server.
         // 4 - Response is ready
         if (xmlHttp.readyState===4) {
             // 200 - Good request
             if (xmlHttp.status===200) {
-                parseJSON(xmlHttp.responseText)
-            } 
-            else { //There was some issue
+                // console.log(xmlHttp.responseText);
+                parseJSON(xmlHttp.responseText);
+            } else { //There was some issue
                 window.alert("HTTP error: " + xmlHttp.status +
-                    ". Try reloading the page.")
+                    ". Try reloading the page.");
             }
         }
     }
@@ -50,14 +50,14 @@ function getNationInfo(url) {
 // Basic sort function by name. Called on click.
 function nameSort(increment) {
     nationInfoArray.sort(function (a, b) {
-            return a.region.localeCompare(b.region) || a.name.localeCompare(b.name) 
+            return a.region.localeCompare(b.region) || a.name.localeCompare(b.name);
     });
 }
 
-// Basic sort function by density. Called on click.
+// Basic sort function by density. Called on click..
 function densitySort(increment) {
     nationInfoArray.sort(function (a, b) {
-            return a.region.localeCompare(b.region) || parseFloat(a.density) - parseFloat(b.density)
+            return a.region.localeCompare(b.region) || parseFloat(a.density) - parseFloat(b.density);
     });
 }
 
@@ -65,10 +65,10 @@ function densitySort(increment) {
 // from the server.
 function parseJSON(nationResponse) {
     // Parse the retrieved message.
-    const parsedJSON = JSON.parse(nationResponse)
+    const parsedJSON = JSON.parse(nationResponse);
 
     // Build out data modal for sorting and display.
-    buildModal(parsedJSON)
+    buildModal(parsedJSON);
 
     // Builds the data modal based on the required data.
     function buildModal(parsedResponse) {
@@ -83,23 +83,37 @@ function parseJSON(nationResponse) {
         - List of languages spoken 
         - We also need to figure out population density with is people per square km
         */
-        const keyArray = ["name", "alpha2Code", "capital", "region", "population", "area", "timezones", "languages", "area"]
+        const keyArray = ["name", "alpha2Code", "capital", "region", "population", "area", "timezones", "languages", "area"];
 
         // Build our modal from the retrieved data and the required info.
         for (var i = 0; i < parsedJSON.length; i++) {
-            var nationInfo = {}
+            var nationInfo = {};
             for (var infoKey = 0; infoKey < keyArray.length; infoKey++) {
                 nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
-            }
-
-            // Check for area validity.
-            if (nationInfo["area"] === null) {
-                nationInfo["area"] = 0
-                nationInfo["density"] = 0
-            } else {
-                // Calculate the density rounded down which is the
-                // general convention.
-                nationInfo["density"] = Math.floor(nationInfo["population"] / nationInfo["area"])
+                // If the result is null replace it with N/A
+                if (parsedResponse[i][keyArray[infoKey]] === null || parsedResponse[i][keyArray[infoKey]] === "") {
+                    nationInfo[keyArray[infoKey]]="unknown"
+                }
+                
+                // If the key is area and its null, replace both area and density
+                // with 0.
+                if (keyArray === "area" && parsedResponse[i][keyArray[infoKey]] === null) {
+                        nationInfo["area"] = 0
+                        nationInfo["density"] = 0
+                } 
+                else {
+                    // Calculate the density rounded down which is the
+                    // general convention.
+                    nationInfo["density"] = Math.floor(nationInfo["population"] / nationInfo["area"])
+                }
+                
+                if (infoKey === keyArray.indexOf("languages") && parsedResponse[i][keyArray[infoKey]] !== null) {
+                    for (var y = 0; y < nationInfo[keyArray[infoKey]].length; y++) {
+                        //Convert languages to upper for viewing.
+                        const newString = nationInfo[keyArray[infoKey]][y].toUpperCase()                        
+                        nationInfo[keyArray[infoKey]][y] = newString
+                    }
+                }   
             }
             nationInfoArray.push(nationInfo)
         }
@@ -111,6 +125,8 @@ function parseJSON(nationResponse) {
 // Core display function. Contains a React class for a MUI
 // card which is reused to display all the data.
 function displayNation(nationInfoArray) {
+    
+    // Array of nation names.
     var names = [];
     
     // Create an array of just nation names.
@@ -120,7 +136,7 @@ function displayNation(nationInfoArray) {
         
     // Recact class for displaying a MUI card.
     var Cards = React.createClass({
-    render: function() {    
+    render: function() {
     var namesList = names.map(function(name){
     var foundCountry = {}
     // Find the country in the dict of countries to get the other data.
@@ -132,13 +148,13 @@ function displayNation(nationInfoArray) {
                     <NationCard key={name} additionalData={foundCountry} subtitleColor="#D24D57"/>
                     <br/>
                 </div>
-            )}}})
+            )}}return null })
         return <ul>{namesList}</ul>
         }
     });
     
 // Function for radio buttons.
-function onChange(value) {
+function sortRadioChange(value) {
     if (isNameSorted) {
         isNameSorted = false
         densitySort(true)
@@ -149,14 +165,14 @@ function onChange(value) {
     }
     displayNation(nationInfoArray)
 }
- 
+     
 // Defines element that is showed after a successful request.
 const cardElement=(
     <MuiThemeProvider>
         <div>
-            <AppBar title="Nation Info"/>
+            <AppBar title="Nation Info - Sort"/>
             <br/>
-            <SortRadioButton change={onChange}/>
+            <SortRadioButton change={sortRadioChange}/>
             <br/>
             <Cards/>
         </div>
@@ -171,6 +187,7 @@ const App=() => (
     <MuiThemeProvider>
         <div>
             <AppBar title="Nation Info Is Loading"/>
+            <br/>
             <br/>
             <LinearProgress mode="indeterminate" />
         </div>
