@@ -59,7 +59,7 @@ The below were my interpretation and implementation of the requirements.
  ![Image of card closed](https://github.com/roccoma504/hello-world/blob/master/images/card_closed.png)
  ![Image of card](https://github.com/roccoma504/hello-world/blob/master/images/card.png)
  
-  The additional information is in the section that can be expanded by the user. Data that is unknown (the API was lacking) is marked as unknown.
+  The additional information is in the section that can be expanded by the user. Data that is unknown (the API was lacking) is marked as unknown. All commas are added dynamically during rendering. Casing was also adjusted for data that came in lower case from the API for style mostly.
  
  
  
