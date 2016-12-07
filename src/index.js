@@ -145,7 +145,6 @@ function parseJSON(nationResponse) {
     
     // Build out data modal for sorting and display.
     buildModal(JSON.parse(nationResponse));
-　
     
     // Calculate the sort and display the cards.
     displayNation(nationInfoArray);
