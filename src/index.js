@@ -18,6 +18,9 @@ const baseURL = "https://restcountries.eu/rest/v1/";
 // Expandable endpoint variable.
 var endpoint = "all";
 
+//Original data modal from API.
+var baseInfoArray = [];
+
 // Base info from the API so sorts are consistent.var baseInfoArray = [];
 // Contains all information about the nations.
 var nationInfoArray = [];
@@ -52,11 +55,12 @@ function getNationInfo(url) {
 // Core sorting logic. Depending on checked flags we'll sort and redraw.
 function calculateSort() {
     // Convert back to original modal.
-    nationInfoArray = baseInfoArray 
+    nationInfoArray = baseInfoArray;
+    console.log(baseInfoArray)
     if (!isNameSorted) {
         if (isRegionSorted) {
         nationInfoArray.sort(function (a, b) {
-            return a.region.localeCompare(b.region) || parseFloat(a.density) - parseFloat(b.density);
+            return a.region.localeCompare(b.region) || (parseFloat(a.density) - parseFloat(b.density));
         });
     }
         else {
@@ -83,6 +87,7 @@ function calculateSort() {
 // Wrapper for JSON parsing. We should only get here if we got a valid response
 // from the server.
 function parseJSON(nationResponse) {
+    console.log("req")
    
     // Builds the data modal based on the required data.
     function buildModal(parsedResponse) {
@@ -102,7 +107,7 @@ function parseJSON(nationResponse) {
         // Build our modal from the retrieved data and the required info.
         // We default the data to remove some else cases and do special case 
         // processing on certain elements.
-        for (var i = 0; i < parsedJSON.length; i++) {
+        for (var i = 0; i < parsedResponse.length; i++) {
             // Make a new dictionary for every nation and default data
             // with special case processing so in the event our inputs
             // are bad we will still have a result.
@@ -132,6 +137,7 @@ function parseJSON(nationResponse) {
             }
             // Push the new data to the array.
             nationInfoArray.push(nationInfo);
+            baseInfoArray.push(nationInfo);
         }
     }
     
@@ -139,8 +145,7 @@ function parseJSON(nationResponse) {
     buildModal(JSON.parse(nationResponse));
     
     // Calculate the sort and display the cards.
-    baseInfoArray = nationInfoArray;
-    calculateSort();
+
     displayNation(nationInfoArray);
 }
 
