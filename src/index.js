@@ -26,7 +26,7 @@ var nationInfoArray = [];
 var isNameSorted = true;
 
 // Nation array sorted by region.
-var isRegionSorted = false
+var isRegionSorted = false;
 
 // Functions
 // Generic async request found @ w3school.
@@ -180,7 +180,7 @@ function displayNation(nationInfoArray) {
             <div>
                 <AppBar title="Nation Info - Sort"/>
                 <br/>
-                <SortRadioButton name={"sort"} defaultSelected={"name"} value1={"name"} label1={"Sort By Name"} value2={"density"} label2={"Sort By Population Density"} onChange={updateSort} onCheck={updateRegion}/>
+                <SortRadioButton name={"sort"} defaultSelected={"name"} value1={"name"} label1={"Sort By Name"} value2={"density"} label2={"Sort By Population Density"} onChange={updateSort} onCheck={updateRegion} defaultCheck={isRegionSorted}/>
                 <Cards/>
             </div>
         
