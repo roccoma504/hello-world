@@ -18,7 +18,7 @@ const baseURL = "https://restcountries.eu/rest/v1/";
 // Expandable endpoint variable.
 var endpoint = "all";
 
-// Contains all information about the nations
+// Contains all information about the nations.
 var nationInfoArray = [];
 
 // Nation array sorted by name.
