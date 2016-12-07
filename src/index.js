@@ -18,11 +18,11 @@ const baseURL = "https://restcountries.eu/rest/v1/";
 // Expandable endpoint variable.
 var endpoint = "all";
 
+// Base info from the API so sorts are consistent.var baseInfoArray = [];
 // Contains all information about the nations.
 var nationInfoArray = [];
 
 // Nation array sorted by name.
-// Note: Array is sorted by region first.
 var isNameSorted = true;
 
 // Nation array sorted by region.
@@ -51,6 +51,8 @@ function getNationInfo(url) {
 
 // Core sorting logic. Depending on checked flags we'll sort and redraw.
 function calculateSort() {
+    // Convert back to original modal.
+    nationInfoArray = baseInfoArray 
     if (!isNameSorted) {
         if (isRegionSorted) {
         nationInfoArray.sort(function (a, b) {
@@ -81,12 +83,7 @@ function calculateSort() {
 // Wrapper for JSON parsing. We should only get here if we got a valid response
 // from the server.
 function parseJSON(nationResponse) {
-    // Parse the retrieved message.
-    const parsedJSON = JSON.parse(nationResponse);
-
-    // Build out data modal for sorting and display.
-    buildModal(parsedJSON);
-
+   
     // Builds the data modal based on the required data.
     function buildModal(parsedResponse) {
         /* Requirements state we need the following data
@@ -137,7 +134,12 @@ function parseJSON(nationResponse) {
             nationInfoArray.push(nationInfo);
         }
     }
+    
+    // Build out data modal for sorting and display.
+    buildModal(JSON.parse(nationResponse));
+    
     // Calculate the sort and display the cards.
+    baseInfoArray = nationInfoArray;
     calculateSort();
     displayNation(nationInfoArray);
 }
