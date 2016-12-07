@@ -26,7 +26,7 @@ var nationInfoArray = [];
 var isNameSorted = true;
 
 // Nation array sorted by region.
-var isRegionSorted = false;
+var isRegionSorted = false
 
 // Functions
 // Generic async request found @ w3school.
