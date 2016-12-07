@@ -6,31 +6,30 @@ import NationCard from './components/cards'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SortRadioButton from './components/sortRadio'
-
+　
 // Safari issue where this is needed.
 injectTapEventPlugin();
-
+　
 // Constants
 // Define the base URL for flex when building enpoints.
 const baseURL = "https://restcountries.eu/rest/v1/";
-
+　
 // Variables
 // Expandable endpoint variable.
 var endpoint = "all";
-
+　
 //Original data modal from API.
 var baseInfoArray = [];
-
-// Base info from the API so sorts are consistent.var baseInfoArray = [];
+　
 // Contains all information about the nations.
 var nationInfoArray = [];
-
+　
 // Nation array sorted by name.
 var isNameSorted = true;
-
+　
 // Nation array sorted by region.
 var isRegionSorted = false;
-
+　
 // Functions
 // Generic async request found @ w3school.
 function getNationInfo(url) {
@@ -51,16 +50,15 @@ function getNationInfo(url) {
     xmlHttp.open("GET", url, true);
     xmlHttp.send(null);
 }
-
+　
 // Core sorting logic. Depending on checked flags we'll sort and redraw.
 function calculateSort() {
-    // Convert back to original modal.
-    nationInfoArray = baseInfoArray;
+　
     console.log(baseInfoArray)
     if (!isNameSorted) {
         if (isRegionSorted) {
         nationInfoArray.sort(function (a, b) {
-            return a.region.localeCompare(b.region) || (parseFloat(a.density) - parseFloat(b.density));
+            return (parseFloat(a.density) - parseFloat(b.density)) || a.region.localeCompare(b.region);
         });
     }
         else {
@@ -83,7 +81,7 @@ function calculateSort() {
     }
     displayNation(nationInfoArray)
 }
-
+　
 // Wrapper for JSON parsing. We should only get here if we got a valid response
 // from the server.
 function parseJSON(nationResponse) {
@@ -103,7 +101,7 @@ function parseJSON(nationResponse) {
         - We also need to figure out population density with is people per square km
         */
         const keyArray = ["name", "alpha2Code", "capital", "region", "population", "area", "timezones", "languages", "area"];
-
+　
         // Build our modal from the retrieved data and the required info.
         // We default the data to remove some else cases and do special case 
         // processing on certain elements.
@@ -137,18 +135,21 @@ function parseJSON(nationResponse) {
             }
             // Push the new data to the array.
             nationInfoArray.push(nationInfo);
-            baseInfoArray.push(nationInfo);
+　
         }
+    calculateSort();
     }
     
     // Build out data modal for sorting and display.
     buildModal(JSON.parse(nationResponse));
+　
+    // Set original modal.
+    baseInfoArray = nationInfoArray;
     
     // Calculate the sort and display the cards.
-
     displayNation(nationInfoArray);
 }
-
+　
 // Core display function. Contains a React class for a MUI
 // card which is reused to display all the data.
 function displayNation(nationInfoArray) {
@@ -198,7 +199,7 @@ function displayNation(nationInfoArray) {
         cardElement,
         document.getElementById('root'));
 }
-
+　
 // Defines element that is showed at page load.
 const App=() => (
     <MuiThemeProvider>
@@ -209,21 +210,25 @@ const App=() => (
         </div>
     </MuiThemeProvider>
 );
-
+　
 ReactDOM.render(
         <App/>,
         document.getElementById('root'));
-
-
+　
+　
 function updateSort() {
     isNameSorted = !isNameSorted;
+    // Set original modal.
+    nationInfoArray;= baseInfoArray;
     calculateSort();
 }
-
+　
 function updateRegion() {
     isRegionSorted = !isRegionSorted;
+    nationInfoArray;= baseInfoArray;
     calculateSort();
 }
-
+　
 // Fire off request on load.
 getNationInfo(baseURL + endpoint);
+　
