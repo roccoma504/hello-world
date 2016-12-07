@@ -6,8 +6,8 @@ This is an attempt a React app by Matt Rocco.
 
 Files to note
 -------------
-src/index.js
-src/components/cards.js
+src/index.js  
+src/components/cards.js  
 src/components/sortRadio.js
 
 References
