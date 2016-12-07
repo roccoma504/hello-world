@@ -30,9 +30,11 @@ The below were my interpretation and implementation of the requirements.
  - **IMPLEMENTATION**: Display a card for each nation. There is a checkbox available to allow the user to group cards by region.
  
  This options will group cards by region and perform the selected sort (see 2). As an example if this box is checked and the Name sort is on, the user will see the Africa regionf first and within the group each African nation sorted by name. The regions are also color coded.
+ 
   ![Image of checkon](https://github.com/roccoma504/hello-world/blob/master/images/check_on.png)
   
   With the checkbox off the app will ignore region. In the same example as above, the user will be presented with all of the nations in order by name.
+  
   ![Image of checkon](https://github.com/roccoma504/hello-world/blob/master/images/check_off.png)
 
 2) Sorted by name or population
