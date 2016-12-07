@@ -9,6 +9,8 @@ engines:
     enabled: true
   duplication:
     enabled: true
+    exclude_fingerprints:
+    - 9fffa934680d533520ef3b0308224377
     config:
       languages:
       - ruby
@@ -30,8 +32,7 @@ ratings:
   - "**.py"
   - "**.rb"
 exclude_paths: []
-exclude_fingerprints:
-    - 9fffa934680d533520ef3b0308224377
+
 diff --git a/.csslintrc b/.csslintrc
 index e69de29..aacba95 100644
 --- a/.csslintrc
