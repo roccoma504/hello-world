@@ -106,9 +106,12 @@ function parseJSON(nationResponse) {
         // We default the data to remove some else cases and do special case 
         // processing on certain elements.
         for (var i = 0; i < parsedJSON.length; i++) {
-            // Make a new dictionary for every nation and default density
-            // as this is a calculated value.
-            var nationInfo = {density:"No Data Available"};
+            // Make a new dictionary for every nation and default data
+            // with special case processing so in the event our inputs
+            // are bad we will still have a result.
+            var nationInfo = {density:0,
+                             languages:[],
+                             area:0};
             
             for (var infoKey = 0; infoKey < keyArray.length; infoKey++) {
                 nationInfo[keyArray[infoKey]] = "No Data Available"
@@ -116,26 +119,25 @@ function parseJSON(nationResponse) {
                 // If the result is not null replace it with N/A
                 if (parsedResponse[i][keyArray[infoKey]] !== null && parsedResponse[i][keyArray[infoKey]] !== "") {
                     nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]];
-                    
-                    // Special case for languages. We want to upper this whole
-                    // array as the API is lower.
-                    if (infoKey === keyArray.indexOf("languages")) {
-                        for (var y = 0; y < nationInfo[keyArray[infoKey]].length; y++) {
-                            //Convert languages to upper for viewing.
-                            const newString = nationInfo[keyArray[infoKey]][y].toUpperCase();                   
-                            nationInfo[keyArray[infoKey]][y] = newString;
-                        }
-                    }
-                    
-                    // If we have a good area we calculate density.
-                    else if (keyArray[infoKey] === "area") {
-                        nationInfo["density"] = Math.floor(nationInfo["population"] / nationInfo["area"]);
-                    }
                 }                              
             }
-         nationInfoArray.push(nationInfo);
+            
+            // Convert to all uppers.
+            for (var y = 0; y < nationInfo["languages"].length; y++) {
+                //Convert languages to upper for viewing.
+                const newString = nationInfo["languages"][y].toUpperCase();                   
+                nationInfo["languages"][y] = newString;
+                }
+        
+            // If we have a valid area calculate density.
+            if (nationInfo["area"] > 0) {
+                nationInfo["density"] = Math.floor(nationInfo["population"] / nationInfo["area"]);
+            }
+            // Push the new data to the array.
+            nationInfoArray.push(nationInfo);
         }
     }
+    // Calculate the sort and display the cards.
     calculateSort();
     displayNation(nationInfoArray);
 }

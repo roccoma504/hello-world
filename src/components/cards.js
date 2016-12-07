@@ -36,9 +36,9 @@ const NationCard = (props) => (
       showExpandableButton={true}
     />
     <CardActions>
-        <FlatButton label={"Population: "+numberWithCommas(props.additionalData.population)}/>
-        <FlatButton label={"Area: " + numberWithCommas(props.additionalData.area)}/>
-        <FlatButton label={"Population Density: "+ numberWithCommas(props.additionalData.density)}/>
+        <FlatButton style={{ width: 300 }} label={"Population: "+numberWithCommas(props.additionalData.population)}/>
+        <FlatButton style={{ width: 300 }} label={"Area: " + numberWithCommas(props.additionalData.area)}/>
+        <FlatButton style={{ width: 300 }} label={"Population Density: "+ numberWithCommas(props.additionalData.density)}/>
     </CardActions>
     <CardText expandable={true}>
         <ul>
