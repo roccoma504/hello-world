@@ -2,8 +2,11 @@ import FlatButton from 'material-ui/FlatButton';
 import React from 'react';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
-const styles = {
-  button: {
+const buttonStyles = {
+  small: {
+      width: 200
+  },
+  big: {
       width: 300
   }
 }
@@ -42,9 +45,9 @@ const NationCard = (props) => (
       showExpandableButton={true}
     />
     <CardActions>
-        <FlatButton style={styles.button} label={"Population: "+numberWithCommas(props.additionalData.population)}/>
-        <FlatButton style={styles.button} label={"Area: " + numberWithCommas(props.additionalData.area)}/>
-        <FlatButton style={styles.button} label={"Population Density: "+ numberWithCommas(props.additionalData.density)}/>
+        <FlatButton style={buttonStyles.big} label={"Population: "+numberWithCommas(props.additionalData.population)}/>
+        <FlatButton style={buttonStyles.small} label={"Area: " + numberWithCommas(props.additionalData.area)}/>
+        <FlatButton style={buttonStyles.big} label={"Population Density: "+ numberWithCommas(props.additionalData.density)}/>
     </CardActions>
     <CardText expandable={true}>
         <ul>
