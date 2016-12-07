@@ -54,7 +54,10 @@ function getNationInfo(url) {
 // Core sorting logic. Depending on checked flags we'll sort and redraw.
 function calculateSort() {
 　
-    console.log(baseInfoArray)
+    // Copy the base array to the sort so that we sort the same
+    // everytime.
+    nationInfoArray = JSON.parse(JSON.stringify(baseInfoArray));
+    
     if (!isNameSorted) {
         if (isRegionSorted) {
         nationInfoArray.sort(function (a, b) {
@@ -85,7 +88,6 @@ function calculateSort() {
 // Wrapper for JSON parsing. We should only get here if we got a valid response
 // from the server.
 function parseJSON(nationResponse) {
-    console.log("req")
    
     // Builds the data modal based on the required data.
     function buildModal(parsedResponse) {
@@ -133,9 +135,10 @@ function parseJSON(nationResponse) {
             if (nationInfo["area"] > 0) {
                 nationInfo["density"] = Math.floor(nationInfo["population"] / nationInfo["area"]);
             }
+
             // Push the new data to the array.
             nationInfoArray.push(nationInfo);
-　baseInfoArray.push(nationInfo)
+            baseInfoArray.push(nationInfo);
         }
     calculateSort();
     }
