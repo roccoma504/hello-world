@@ -3,7 +3,7 @@ import Checkbox from 'material-ui/Checkbox';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 const styles = {
-radioButtonGroup: {
+  radioButtonGroup: {
     marginBottom: 10,
     marginLeft: 5,
     width: "auto",
@@ -13,26 +13,18 @@ radioButtonGroup: {
     maxWidth: 500
   },
   radioButtonSmall: {
-    marginBottom: 10,
     marginLeft: 5,
     width: 250,
     padding: 10,
-    labelPosition:'left',
-    display: "flex",
-    maxWidth: 4000
   },
-radioButtonLarge: {
-    marginBottom: 10,
+  radioButtonLarge: {
     marginLeft: 5,
     width: 400,
     padding: 10,
-    labelPosition:'left',
-    display: "flex",
-    maxWidth: 4000
   },
   checkbox: {
     marginBottom: 16,
-    maxWidth: 500,
+    maxWidth: 500
   },
   content:{
     flex:1,
@@ -43,7 +35,6 @@ radioButtonLarge: {
 };
 
 // MUI radio buttons. Used for sorting.
-// TODO: Pass in more prop info if used again.
 export const SortRadioButton = (props) => (
     <div>
         <Checkbox label="Group Regions" style={styles.checkbox} onCheck={props.onCheck}/>

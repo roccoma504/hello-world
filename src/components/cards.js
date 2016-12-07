@@ -13,12 +13,11 @@ const regionColor = {
 }
 
 // Adds commas to numbers.
-// TODO: Figure out why toLocal isn't working.
 function numberWithCommas(x) {
     if (x !== undefined && x !== "N/A") {
-    var parts = x.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
+        var parts = x.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".");
     }
     else {
         return ("N/A")
