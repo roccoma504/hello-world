@@ -136,22 +136,54 @@ function displayNation(nationInfoArray) {
         
     // Recact class for displaying a MUI card.
     var Cards = React.createClass({
-    render: function() {
-    var namesList = names.map(function(name){
-    var foundCountry = {}
-    // Find the country in the dict of countries to get the other data.
-    for (var i = 0; i < nationInfoArray.length; i++) {
-        if (nationInfoArray[i].name === name) {
-            foundCountry = nationInfoArray[i]
-            return (
-                <div key={name}>
+        render: function() {
+        var namesList = names.map(function(name){
+            var foundCountry = {}
+            // Find the country in the dict of countries to get the other data.
+            for (var i = 0; i < nationInfoArray.length; i++) {
+                if (nationInfoArray[i].name === name) {
+                    foundCountry = nationInfoArray[i]        
+                }
+            }
+            return (<div key={name}>
                     <NationCard key={name} additionalData={foundCountry} subtitleColor="#D24D57"/>
                     <br/>
-                </div>
-            )}}return null })
+                    </div>
+                    )})        
         return <ul>{namesList}</ul>
-        }
+        }  
     });
+    // Defines element that is showed after a successful request.
+const cardElement=(
+    <MuiThemeProvider>
+        <div>
+            <AppBar title="Nation Info - Sort"/>
+            <br/>
+            <SortRadioButton change={sortRadioChange}/>
+            <br/>
+            <Cards/>
+        </div>
+      </MuiThemeProvider>
+);
+    ReactDOM.render(
+        cardElement,
+        document.getElementById('root'));
+}
+
+// Defines element that is showed at page load.
+const App=() => (
+    <MuiThemeProvider>
+        <div>
+            <AppBar title="Nation Info Is Loading"/>
+            <br/>
+            <LinearProgress mode="indeterminate" />
+        </div>
+    </MuiThemeProvider>
+);
+
+ReactDOM.render(
+        <App/>,
+        document.getElementById('root'));
     
 // Function for radio buttons.
 function sortRadioChange(value) {
@@ -166,37 +198,6 @@ function sortRadioChange(value) {
     displayNation(nationInfoArray)
 }
      
-// Defines element that is showed after a successful request.
-const cardElement=(
-    <MuiThemeProvider>
-        <div>
-            <AppBar title="Nation Info - Sort"/>
-            <br/>
-            <SortRadioButton change={sortRadioChange}/>
-            <br/>
-            <Cards/>
-        </div>
-      </MuiThemeProvider>);
-    ReactDOM.render(
-        cardElement,
-        document.getElementById('root'));
-}
-
-// Defines element that is showed at page load.
-const App=() => (
-    <MuiThemeProvider>
-        <div>
-            <AppBar title="Nation Info Is Loading"/>
-            <br/>
-            <br/>
-            <LinearProgress mode="indeterminate" />
-        </div>
-    </MuiThemeProvider>
-);
-
-ReactDOM.render(
-        <App/>,
-        document.getElementById('root'));
 
 // Fire off request on load.
 getNationInfo(baseURL + endpoint)
