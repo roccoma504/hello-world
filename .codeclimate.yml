@@ -8,9 +8,7 @@ engines:
   csslint:
     enabled: true
   duplication:
-    enabled: true
-    exclude_fingerprints:
-    - 9fffa934680d533520ef3b0308224377
+    enabled: false
     config:
       languages:
       - ruby
