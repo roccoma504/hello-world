@@ -27,7 +27,13 @@ The below were my interpretation and implementation of the requirements.
 
 1) Display each of the worlds nations by region
 
- - **IMPLEMENTATION**: Display a card for each nation. Regardless of sort the cards will be first sorted by region. Colors will be used to have an easy identification of region.
+ - **IMPLEMENTATION**: Display a card for each nation. There is a checkbox available to allow the user to group cards by region.
+ 
+ This options will group cards by region and perform the selected sort (see 2). As an example if this box is checked and the Name sort is on, the user will see the Africa regionf first and within the group each African nation sorted by name. The regions are also color coded.
+  ![Image of checkon](https://github.com/roccoma504/hello-world/blob/master/images/check_on.png)
+  
+  With the checkbox off the app will ignore region. In the same example as above, the user will be presented with all of the nations in order by name.
+  ![Image of checkon](https://github.com/roccoma504/hello-world/blob/master/images/check_off.png)
 
 2) Sorted by name or population
 
@@ -48,14 +54,12 @@ The below were my interpretation and implementation of the requirements.
  8. Languages spoken
  
  **IMPLEMENTATION**: Created the cards to be expandable allowing the user to see additional data without clogging up the screen.
- 
-  ![Image of card closed](https://github.com/roccoma504/hello-world/blob/master/images/card_closed.png)
-
- 
+ ![Image of card closed](https://github.com/roccoma504/hello-world/blob/master/images/card_closed.png)
  ![Image of card](https://github.com/roccoma504/hello-world/blob/master/images/card.png)
  
+  The additional information is in the section that can be expanded by the user. Data that is unknown (the API was lacking) is marked as unknown.
  
-
+ 
  
 Usage
 -------------------
@@ -65,22 +69,18 @@ Usage
 
 > Navigate to port 3000
 
-The app will load automatically. If there is an error the user will be notified.
-
-The user can sort by name or sort by population density via a radio button. 
-
-> **Note**: Data will be first sorted by region so a sort by name will be 
-> Region -> Name
 
 MUI Elements Implemented
 -------------------
 
  - Appear Bar 
 	 - For title
- - Progress Bar
-	 - For showing loading of data during page load
  - Card/Flat Button
 	 - Display information about nations
+ - Checkbox
+ 	 - For grouping
+ - Progress Bar
+	 - For showing loading of data during page load
  - Radio Buttons
 	 - For sorting
 
