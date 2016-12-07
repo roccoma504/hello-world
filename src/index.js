@@ -87,6 +87,7 @@ function parseJSON(nationResponse) {
 
     // Build out data modal for sorting and display.
     buildModal(parsedJSON);
+    console.log(parsedJSON)
 
     // Builds the data modal based on the required data.
     function buildModal(parsedResponse) {
@@ -110,14 +111,14 @@ function parseJSON(nationResponse) {
                 nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
                 // If the result is null replace it with N/A
                 if (parsedResponse[i][keyArray[infoKey]] === null || parsedResponse[i][keyArray[infoKey]] === "") {
-                    nationInfo[keyArray[infoKey]]="Unknown"
+                    nationInfo[keyArray[infoKey]]="No Data Available"
                 }
                 
                 // If the key is area and its null, replace both area and density
                 // with 0.
-                if (keyArray === "area" && parsedResponse[i][keyArray[infoKey]] === null) {
-                        nationInfo["area"] = 0
-                        nationInfo["density"] = 0
+                if (keyArray[infoKey] === "area" && (parsedResponse[i][keyArray[infoKey]] === null || parsedResponse[i][keyArray[infoKey]] === "")) {
+                        nationInfo["area"] = "No Data Available"
+                        nationInfo["density"] = "No Data Available"
                 } 
                 else {
                     // Calculate the density rounded down which is the
