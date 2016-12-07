@@ -37,7 +37,7 @@ const styles = {
 // MUI radio buttons. Used for sorting.
 export const SortRadioButton = (props) => (
     <div>
-        <Checkbox label="Group Regions" style={styles.checkbox} onCheck={props.onCheck}/>
+        <Checkbox label="Group Regions" style={styles.checkbox} onCheck={props.onCheck} defaultChecked={props.isRegionSorted}/>
         <RadioButtonGroup name={props.name} defaultSelected={props.defaultSelected} onChange={props.onChange} style={styles.radioButtonGroup}>
             <RadioButton value={props.value1} label={props.label1}style={styles.radioButtonSmall}/>
             <RadioButton value={props.value2} label={props.label2}style={styles.radioButtonLarge}/>
