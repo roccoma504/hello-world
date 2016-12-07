@@ -135,7 +135,7 @@ function parseJSON(nationResponse) {
             }
             // Push the new data to the array.
             nationInfoArray.push(nationInfo);
-　
+　baseInfoArray.push(nationInfo)
         }
     calculateSort();
     }
@@ -143,8 +143,6 @@ function parseJSON(nationResponse) {
     // Build out data modal for sorting and display.
     buildModal(JSON.parse(nationResponse));
 　
-    // Set original modal.
-    baseInfoArray = nationInfoArray;
     
     // Calculate the sort and display the cards.
     displayNation(nationInfoArray);
@@ -218,14 +216,11 @@ ReactDOM.render(
 　
 function updateSort() {
     isNameSorted = !isNameSorted;
-    // Set original modal.
-    nationInfoArray;= baseInfoArray;
     calculateSort();
 }
 　
 function updateRegion() {
     isRegionSorted = !isRegionSorted;
-    nationInfoArray;= baseInfoArray;
     calculateSort();
 }
 　
