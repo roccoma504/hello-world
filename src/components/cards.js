@@ -44,7 +44,7 @@ const NationCard = (props) => (
         <ul>
             <li><b>Population (people): </b> {numberWithCommas(props.additionalData.population)}</li>
             <li><b>Area (square kilometers): </b> {numberWithCommas(props.additionalData.area)}</li>
-            <li><b>Population density (person(s) per kilometer squared): </b> {numberWithCommas(props.additionalData.density)}</li>
+            <li><b>Population density (person(s) per square kilometer ): </b> {numberWithCommas(props.additionalData.density)}</li>
             <li><b>Alpha 2 code: </b> {props.additionalData.alpha2Code}</li>
             <li><b>Capital city: </b> {props.additionalData.capital}</li>
             <li><b>Number of timezone(s): </b> {props.additionalData.timezones.length}</li>
