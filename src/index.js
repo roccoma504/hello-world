@@ -38,7 +38,6 @@ function getNationInfo(url) {
         if (xmlHttp.readyState===4) {
             // 200 - Good request
             if (xmlHttp.status===200) {
-                // console.log(xmlHttp.responseText);
                 parseJSON(xmlHttp.responseText);
             } else { //There was some issue
                 window.alert("HTTP error: " + xmlHttp.status +
@@ -87,7 +86,6 @@ function parseJSON(nationResponse) {
 
     // Build out data modal for sorting and display.
     buildModal(parsedJSON);
-    console.log(parsedJSON)
 
     // Builds the data modal based on the required data.
     function buildModal(parsedResponse) {
@@ -105,40 +103,41 @@ function parseJSON(nationResponse) {
         const keyArray = ["name", "alpha2Code", "capital", "region", "population", "area", "timezones", "languages", "area"];
 
         // Build our modal from the retrieved data and the required info.
+        // We default the data to remove some else cases and do special case 
+        // processing on certain elements.
         for (var i = 0; i < parsedJSON.length; i++) {
-            var nationInfo = {};
+            // Make a new dictionary for every nation and default density
+            // as this is a calculated value.
+            var nationInfo = {density:"No Data Available"};
+            
             for (var infoKey = 0; infoKey < keyArray.length; infoKey++) {
-                nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
-                // If the result is null replace it with N/A
-                if (parsedResponse[i][keyArray[infoKey]] === null || parsedResponse[i][keyArray[infoKey]] === "") {
-                    nationInfo[keyArray[infoKey]]="No Data Available"
-                }
+                nationInfo[keyArray[infoKey]] = "No Data Available"
                 
-                // If the key is area and its null, replace both area and density
-                // with 0.
-                if (keyArray[infoKey] === "area" && (parsedResponse[i][keyArray[infoKey]] === null || parsedResponse[i][keyArray[infoKey]] === "")) {
-                        nationInfo["area"] = "No Data Available"
-                        nationInfo["density"] = "No Data Available"
-                } 
-                else {
-                    // Calculate the density rounded down which is the
-                    // general convention.
-                    nationInfo["density"] = Math.floor(nationInfo["population"] / nationInfo["area"])
-                }
-                
-                if (infoKey === keyArray.indexOf("languages") && parsedResponse[i][keyArray[infoKey]] !== null) {
-                    for (var y = 0; y < nationInfo[keyArray[infoKey]].length; y++) {
-                        //Convert languages to upper for viewing.
-                        const newString = nationInfo[keyArray[infoKey]][y].toUpperCase()                        
-                        nationInfo[keyArray[infoKey]][y] = newString
+                // If the result is not null replace it with N/A
+                if (parsedResponse[i][keyArray[infoKey]] !== null && parsedResponse[i][keyArray[infoKey]] !== "") {
+                    nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]];
+                    
+                    // Special case for languages. We want to upper this whole
+                    // array as the API is lower.
+                    if (infoKey === keyArray.indexOf("languages")) {
+                        for (var y = 0; y < nationInfo[keyArray[infoKey]].length; y++) {
+                            //Convert languages to upper for viewing.
+                            const newString = nationInfo[keyArray[infoKey]][y].toUpperCase();                   
+                            nationInfo[keyArray[infoKey]][y] = newString;
+                        }
                     }
-                }   
+                    
+                    // If we have a good area we calculate density.
+                    else if (keyArray[infoKey] === "area") {
+                        nationInfo["density"] = Math.floor(nationInfo["population"] / nationInfo["area"]);
+                    }
+                }                              
             }
-            nationInfoArray.push(nationInfo)
+         nationInfoArray.push(nationInfo);
         }
-        calculateSort()
-        displayNation(nationInfoArray)
     }
+    calculateSort();
+    displayNation(nationInfoArray);
 }
 
 // Core display function. Contains a React class for a MUI
@@ -150,18 +149,18 @@ function displayNation(nationInfoArray) {
     
     // Create an array of just nation names.
     for (var i = 0; i < nationInfoArray.length; i++) {
-        names.push(nationInfoArray[i]["name"])
+        names.push(nationInfoArray[i]["name"]);
     }
         
     // Recact class for displaying a MUI card.
     var Cards = React.createClass({
         render: function() {
         var namesList = names.map(function(name){
-            var foundCountry = {}
+            var foundCountry = {};
             // Find the country in the dict of countries to get the other data.
             for (var i = 0; i < nationInfoArray.length; i++) {
                 if (nationInfoArray[i].name === name) {
-                    foundCountry = nationInfoArray[i]        
+                    foundCountry = nationInfoArray[i];        
                 }
             }
             return (<div key={name}>
@@ -208,15 +207,14 @@ ReactDOM.render(
 
 
 function updateSort() {
-    isNameSorted = !isNameSorted
-    calculateSort()
+    isNameSorted = !isNameSorted;
+    calculateSort();
 }
 
 function updateRegion() {
-    isRegionSorted = !isRegionSorted
-    calculateSort()
+    isRegionSorted = !isRegionSorted;
+    calculateSort();
 }
 
 // Fire off request on load.
-getNationInfo(baseURL + endpoint)
-
+getNationInfo(baseURL + endpoint);
