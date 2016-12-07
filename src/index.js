@@ -153,18 +153,20 @@ function displayNation(nationInfoArray) {
         return <ul>{namesList}</ul>
         }  
     });
+    
     // Defines element that is showed after a successful request.
-const cardElement=(
-    <MuiThemeProvider>
-        <div>
-            <AppBar title="Nation Info - Sort"/>
-            <br/>
-            <SortRadioButton change={sortRadioChange}/>
-            <br/>
-            <Cards/>
-        </div>
-      </MuiThemeProvider>
-);
+    const cardElement=(
+        <MuiThemeProvider>
+            <div>
+                <AppBar title="Nation Info - Sort"/>
+                <br/>
+                <SortRadioButton change={sortRadioChange}/>
+                <br/>
+                <Cards/>
+            </div>
+        </MuiThemeProvider>
+        );
+    
     ReactDOM.render(
         cardElement,
         document.getElementById('root'));
