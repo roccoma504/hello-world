@@ -25,26 +25,6 @@ function numberWithCommas(x) {
     }
 }
 
-// Adds (s) to words depending on value. 
-function wordsWithS(base,value) {
-    if (value > 1) {
-        return (base + "s ")
-    }
-    else {
-        return(base + " ")
-    }
-}
-
-// Adds (s) to words depending on value. 
-function plural(value) {
-    if (value > 1) {
-        return ("are ")
-    }
-    else {
-        return("is ")
-    }
-}
-
 // Defines a MUI card. The card is configured to be expandable.
 // The additional required information is under the expansion.
 const NationCard = (props) => (
@@ -63,13 +43,13 @@ const NationCard = (props) => (
     </CardActions>
     <CardText expandable={true}>
         <ul>
-            <li>{"There are " + numberWithCommas(props.additionalData.population) + " people."}</li>
-            <li>{"The area is " + numberWithCommas(props.additionalData.area) + " square kilometers"}</li>
-            <li>{"The population density is " + numberWithCommas(props.additionalData.density) + " people per square kilometers"}</li>
-            <li>{"The alpha 2 code is " + props.additionalData.alpha2Code}</li>
-            <li>{"The capital city is " + props.additionalData.capital}</li>
-            <li>{"There " + plural(props.additionalData.timezones.length) + props.additionalData.timezones.length + wordsWithS(" timezone",props.additionalData.timezones.length)}</li>
-            <li>{"The spoken languages are " + props.additionalData.languages}</li>
+            <li><b>Population (people): </b> {numberWithCommas(props.additionalData.population)}</li>
+            <li><b>Area (square kilometers): </b> {numberWithCommas(props.additionalData.area)}</li>
+            <li><b>Population density (person(s) per kilometer squared): </b> {numberWithCommas(props.additionalData.density)}</li>
+            <li><b>Alpha 2 code: </b> {props.additionalData.alpha2Code}</li>
+            <li><b>Capital city: </b> {props.additionalData.capital}</li>
+            <li><b>Number of timezone(s): </b> {props.additionalData.timezones.length}</li>
+            <li><b>Spoken languages:</b> {props.additionalData.languages.sort().toString()}</li>
         </ul>
     </CardText>
   </Card>

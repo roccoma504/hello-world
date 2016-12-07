@@ -111,14 +111,14 @@ function parseJSON(nationResponse) {
                 nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
                 // If the result is null replace it with N/A
                 if (parsedResponse[i][keyArray[infoKey]] === null || parsedResponse[i][keyArray[infoKey]] === "") {
-                    nationInfo[keyArray[infoKey]]="No Data Available"
+                    nationInfo[keyArray[infoKey]]="no data available"
                 }
                 
                 // If the key is area and its null, replace both area and density
                 // with 0.
                 if (keyArray[infoKey] === "area" && (parsedResponse[i][keyArray[infoKey]] === null || parsedResponse[i][keyArray[infoKey]] === "")) {
                         nationInfo["area"] = "No Data Available"
-                        nationInfo["density"] = "No Data Available"
+                        nationInfo["density"] = "no data available"
                 } 
                 else {
                     // Calculate the density rounded down which is the
@@ -206,7 +206,7 @@ ReactDOM.render(
         <App/>,
         document.getElementById('root'));
 
-//TODO: Get the states instead of globals.
+
 function updateSort() {
     isNameSorted = !isNameSorted
     calculateSort()
