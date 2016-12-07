@@ -4,6 +4,12 @@ This is an attempt a React app by Matt Rocco.
 
 [![Code Climate](https://codeclimate.com/github/roccoma504/hello-world/badges/gpa.svg)](https://codeclimate.com/github/roccoma504/hello-world)
 
+Files to note
+-------------
+src/index.js
+src/components/cards.js
+src/components/sortRadio.js
+
 References
 -------------
 A few tools were used to make this app.
@@ -85,4 +91,7 @@ MUI Elements Implemented
 	 - For showing loading of data during page load
  - Radio Buttons
 	 - For sorting
+	 
+  ![Image of final](https://github.com/roccoma504/hello-world/blob/master/images/full.png)
+
 
