@@ -22,8 +22,11 @@ var endpoint = "all";
 var nationInfoArray = [];
 
 // Nation array sorted by name.
-// Note: Array is always sorted by region first.
+// Note: Array is sorted by region first.
 var isNameSorted = true;
+
+// Nation array sorted by region.
+var isRegionSorted = false;
 
 // Functions
 // Generic async request found @ w3school.
@@ -47,18 +50,33 @@ function getNationInfo(url) {
     xmlHttp.send(null);
 }
 
-// Basic sort function by name. Called on click.
-function nameSort(increment) {
-    nationInfoArray.sort(function (a, b) {
-            return a.region.localeCompare(b.region) || a.name.localeCompare(b.name);
-    });
-}
-
-// Basic sort function by density. Called on click..
-function densitySort(increment) {
-    nationInfoArray.sort(function (a, b) {
+// Core sorting logic. Depending on checked flags we'll sort and redraw.
+function calculateSort() {
+    if (!isNameSorted) {
+        if (isRegionSorted) {
+        nationInfoArray.sort(function (a, b) {
             return a.region.localeCompare(b.region) || parseFloat(a.density) - parseFloat(b.density);
-    });
+        });
+    }
+        else {
+            nationInfoArray.sort(function (a, b) {
+                return parseFloat(a.density) - parseFloat(b.density);
+            });
+        }   
+    }
+    else {
+        if (isRegionSorted) {
+            nationInfoArray.sort(function (a, b) {
+                return a.region.localeCompare(b.region) || a.name.localeCompare(b.name);
+        });
+    }
+        else {
+            nationInfoArray.sort(function (a, b) {
+                return a.name.localeCompare(b.name);
+            });   
+        }    
+    }
+    displayNation(nationInfoArray)
 }
 
 // Wrapper for JSON parsing. We should only get here if we got a valid response
@@ -92,7 +110,7 @@ function parseJSON(nationResponse) {
                 nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
                 // If the result is null replace it with N/A
                 if (parsedResponse[i][keyArray[infoKey]] === null || parsedResponse[i][keyArray[infoKey]] === "") {
-                    nationInfo[keyArray[infoKey]]="unknown"
+                    nationInfo[keyArray[infoKey]]="Unknown"
                 }
                 
                 // If the key is area and its null, replace both area and density
@@ -117,7 +135,7 @@ function parseJSON(nationResponse) {
             }
             nationInfoArray.push(nationInfo)
         }
-        nameSort(true)
+        calculateSort()
         displayNation(nationInfoArray)
     }
 }
@@ -146,8 +164,8 @@ function displayNation(nationInfoArray) {
                 }
             }
             return (<div key={name}>
-                    <NationCard key={name} additionalData={foundCountry} subtitleColor="#D24D57"/>
-                    <br/>
+                        <NationCard key={name} additionalData={foundCountry} subtitleColor="#D24D57"/>
+                        <br/>
                     </div>
                     )})        
         return <ul>{namesList}</ul>
@@ -160,10 +178,10 @@ function displayNation(nationInfoArray) {
             <div>
                 <AppBar title="Nation Info - Sort"/>
                 <br/>
-                <SortRadioButton change={sortRadioChange}/>
-                <br/>
+                <SortRadioButton name={"sort"} defaultSelected={"name"} value1={"name"} label1={"Sort By Name"} value2={"density"} label2={"Sort By Population Density"} onChange={updateSort} onCheck={updateRegion}/>
                 <Cards/>
             </div>
+        
         </MuiThemeProvider>
         );
     
@@ -186,20 +204,17 @@ const App=() => (
 ReactDOM.render(
         <App/>,
         document.getElementById('root'));
-    
-// Function for radio buttons.
-function sortRadioChange(value) {
-    if (isNameSorted) {
-        isNameSorted = false
-        densitySort(true)
-    }
-    else {
-        isNameSorted = true
-        nameSort(true)
-    }
-    displayNation(nationInfoArray)
+
+//TODO: Get the states instead of globals.
+function updateSort() {
+    isNameSorted = !isNameSorted
+    calculateSort()
 }
-     
+
+function updateRegion() {
+    isRegionSorted = !isRegionSorted
+    calculateSort()
+}
 
 // Fire off request on load.
 getNationInfo(baseURL + endpoint)
