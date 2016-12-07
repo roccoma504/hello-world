@@ -3,12 +3,7 @@ import React from 'react';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 const buttonStyles = {
-  small: {
-      width: 200
-  },
-  big: {
-      width: 300
-  }
+    width: 300  
 }
 
 // Constant map to region colors.
@@ -45,9 +40,9 @@ const NationCard = (props) => (
       showExpandableButton={true}
     />
     <CardActions>
-        <FlatButton style={buttonStyles.big} label={"Population: "+numberWithCommas(props.additionalData.population)}/>
-        <FlatButton style={buttonStyles.small} label={"Area: " + numberWithCommas(props.additionalData.area)}/>
-        <FlatButton style={buttonStyles.big} label={"Population Density: "+ numberWithCommas(props.additionalData.density)}/>
+        <FlatButton style={buttonStyles} label={"Population: "+numberWithCommas(props.additionalData.population)}/>
+        <FlatButton style={buttonStyles} label={"Area: " + numberWithCommas(props.additionalData.area)}/>
+        <FlatButton style={buttonStyles} label={"Population Density: "+ numberWithCommas(props.additionalData.density)}/>
     </CardActions>
     <CardText expandable={true}>
         <ul>
