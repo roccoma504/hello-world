@@ -15,12 +15,12 @@ const styles = {
   radioButtonSmall: {
     marginLeft: 5,
     width: 250,
-    padding: 10,
+    padding: 10
   },
   radioButtonLarge: {
     marginLeft: 5,
     width: 400,
-    padding: 10,
+    padding: 10
   },
   checkbox: {
     marginBottom: 16,
